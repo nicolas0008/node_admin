@@ -14,8 +14,8 @@
         "src/mongodb/migration/*.js"
     ],
     "cli": {
-        "entitiesDir": "src/entity",
-        "migrationsDir": "src/migration",
-        "subscribersDir": "src/subscriber"
+        "entitiesDir": "src/mongodb/entity",
+        "migrationsDir": "src/mongodb/migration",
+        "subscribersDir": "src/mongodb/subscriber"
     }
 }
