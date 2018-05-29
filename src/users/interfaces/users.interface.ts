@@ -5,7 +5,7 @@ export interface Users{
     readonly email: string,
     readonly password: string,
     readonly token: string,
-    readonly boolean: boolean,
+    readonly admin: boolean,
     readonly crs: {
         readonly username: String,
         readonly password: String
