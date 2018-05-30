@@ -1,7 +1,7 @@
 import { Index } from '../elasticsearch.decorators';
 
-@Index('user')
-export class Users {
+@Index('users')
+export class User {
     firstName: string;
     lastName: string;
 }

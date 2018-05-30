@@ -10,11 +10,12 @@ export function createClient(hostUri: string) {
     });
 }
 
-export function searchQuery<T>(query: any, obj: { new(): T ; }): Promise<any> {
-    const idx = getMetadata('Index', obj);
+export function searchQuery<T>(query: any, typeName: { new(): T; } | string): Promise<any> {
+    const typ = typeof typeName === 'string' ? typeName : getMetadata('Index', typeName);
 
     return esClient.search({
-        index: idx,
+        index: 'termspace',
+        type: typ,
         body: {
             query,
         },
@@ -22,22 +23,32 @@ export function searchQuery<T>(query: any, obj: { new(): T ; }): Promise<any> {
 }
 
 // tslint:disable-next-line:ban-types
-export function search<T>(field: string | string[], search: string | string[], obj: { new(): T ; }): Promise<any> {
-    const idx = getMetadata('Index', obj);
-
-    // TODO: Need to improve this.
-    const match = JSON.parse('{ "' + field + '": "' + search + '" }');
+export function search<T>(content: T, typeName: { new(): T; } | string): Promise<any> {
+    const typ = typeof typeName === 'string' ? typeName : getMetadata('Index', typeName);
+    const str = JSON.parse(JSON.stringify(content));
 
     return esClient.search({
-        index: idx,
+        index: 'termspace',
+        type: typ,
         body: {
             query: {
-                match,
+                match: str,
             },
         },
     });
 }
 
-function getMetadata<T>(field: string, obj: { new(): T ; }): string {
+export function index<T>(content: any, typeName: { new(): T; } | string) {
+    const typ = typeof typeName === 'string' ? typeName : getMetadata('Index', typeName);
+    const str = JSON.stringify(content);
+
+    return esClient.index({
+        index: 'termspace',
+        type: typ,
+        body: str,
+    });
+}
+
+function getMetadata<T>(field: string, obj: { new(): T; }): string {
     return Reflect.getMetadata('Index', new obj().constructor);
 }
