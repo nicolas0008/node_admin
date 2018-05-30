@@ -1,6 +1,6 @@
-import { Index } from '../elasticsearch.decorators';
+import { Type } from '../elasticsearch.decorators';
 
-@Index('users')
+@Type('users')
 export class User {
     firstName: string;
     lastName: string;
