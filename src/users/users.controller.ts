@@ -9,7 +9,7 @@ import { User } from '../elasticsearch/entities/users.entity';
 export class UsersController {
     constructor(private readonly usersService: UsersService) { }
 
-    @Get('signin')
+    @Post('signin')
     async signIn() {
         const user = new User();
         user.firstName = 'FirstName2';
@@ -23,7 +23,7 @@ export class UsersController {
         });
     }
 
-    @Post('signin')
+    @Get('signin')
     async getSign() {
         return await this.usersService.get().then(body => {
             return body.hits.hits;
