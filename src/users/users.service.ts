@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
-import * as ESHelper from '../elasticsearch/elasticsearch.helper';
-import { User } from '../elasticsearch/entities/users.entity';
+import * as ESHelper from '../database/elasticsearch.helper';
+import { User } from '../database/entities/users.entity';
 
 @Injectable()
 export class UsersService {

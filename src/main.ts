@@ -3,7 +3,7 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 import { AppModule } from './app.module';
 
-import * as ESHelper from './elasticsearch/elasticsearch.helper';
+import * as ESHelper from './database/elasticsearch.helper';
 
 async function bootstrap() {
     const app = await NestFactory.create(AppModule);
