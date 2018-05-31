@@ -6,7 +6,7 @@ export function createClient(hostUri: string) {
     const elasticsearch = require('elasticsearch');
 
     esClient = new elasticsearch.Client({
-        host: hostUri,
+        host: hostUri
     });
 }
 
@@ -20,9 +20,9 @@ export function search<T>(content: T, typeName: { new(): T; } | string): Promise
         type: typ,
         body: {
             query: {
-                match: str,
-            },
-        },
+                match: str
+            }
+        }
     });
 }
 
@@ -33,7 +33,7 @@ export function index<T>(content: any, typeName: { new(): T; } | string) {
     return esClient.index({
         index: 'termspace',
         type: typ,
-        body: str,
+        body: str
     });
 }
 
