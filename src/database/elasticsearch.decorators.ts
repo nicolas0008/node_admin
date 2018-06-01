@@ -1,8 +1,14 @@
 import 'reflect-metadata';
+import { DecoratorTypes } from './elasticsearch.helper';
 
-export function Type(value: string) {
-    // tslint:disable-next-line:only-arrow-functions ban-types
-    return function(target: Function) {
-        Reflect.defineMetadata('Index', value, target);
+export function ESType(value: string) {
+    return target => {
+        Reflect.defineMetadata(DecoratorTypes.Type, value, target);
+    };
+}
+
+export function ESIndex(value: string) {
+    return target => {
+        Reflect.defineMetadata(DecoratorTypes.Index, value, target);
     };
 }

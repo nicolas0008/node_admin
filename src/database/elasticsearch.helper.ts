@@ -1,42 +1,63 @@
 import 'reflect-metadata';
+import { BaseRepoEntity } from './entities/base-repo.entity';
 
-export let esClient;
+export let esClient: ESClient;
 
-export function createClient(hostUri: string) {
+export function initClient(hostUri: string): ESClient {
+    esClient = createClient(hostUri);
+    return esClient;
+}
+
+export function createClient(hostUri: string): ESClient {
     const elasticsearch = require('elasticsearch');
-
-    esClient = new elasticsearch.Client({
+    const client = new ESClient();
+    client.esClient = new elasticsearch.Client({
         host: hostUri
     });
+    return client;
 }
 
-// tslint:disable-next-line:ban-types
-export function search<T>(content: T, typeName: { new(): T; } | string): Promise<any> {
-    const typ = typeof typeName === 'string' ? typeName : getMetadata('Index', typeName);
-    const str = JSON.parse(JSON.stringify(content));
+export class DecoratorTypes {
+    static readonly Type = 'ESType';
+    static readonly Index = 'ESIndex';
+}
 
-    return esClient.search({
-        index: 'termspace',
-        type: typ,
-        body: {
-            query: {
-                match: str
+export class ESClient {
+    esClient: any;
+
+    search<T>(content: any, typeName: { new(): T; }): Promise<BaseRepoEntity<T>> {
+        const str = JSON.parse(JSON.stringify(content));
+
+        return this.esClient.search({
+            index: this.getIndexMetadata(typeName),
+            type: this.getTypeMetadata(typeName),
+            body: {
+                query: {
+                    match: str
+                }
             }
-        }
-    });
-}
+        });
+    }
 
-export function index<T>(content: any, typeName: { new(): T; } | string) {
-    const typ = typeof typeName === 'string' ? typeName : getMetadata('Index', typeName);
-    const str = JSON.stringify(content);
+    index<T>(content: any, typeName: { new(): T; }) {
+        const str = JSON.stringify(content);
 
-    return esClient.index({
-        index: 'termspace',
-        type: typ,
-        body: str
-    });
-}
+        return this.esClient.index({
+            index: this.getIndexMetadata(typeName),
+            type: this.getTypeMetadata(typeName),
+            body: str
+        });
+    }
 
-function getMetadata<T>(field: string, obj: { new(): T; }): string {
-    return Reflect.getMetadata('Index', new obj().constructor);
+    getTypeMetadata<T>(obj: { new(): T; }): string {
+        return this.getMetadata(DecoratorTypes.Type, obj);
+    }
+
+    getIndexMetadata<T>(obj: { new(): T; }): string {
+        return this.getMetadata(DecoratorTypes.Index, obj);
+    }
+
+    getMetadata<T>(str: string, obj: { new(): T; }): string {
+        return Reflect.getMetadata(str, new obj().constructor);
+    }
 }

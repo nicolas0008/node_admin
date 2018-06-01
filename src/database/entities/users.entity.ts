@@ -1,7 +1,12 @@
-import { Type } from '../elasticsearch.decorators';
+import { ESType, ESIndex } from '../elasticsearch.decorators';
 
-@Type('users')
+@ESIndex('termspace')
+@ESType('users')
 export class User {
-    firstName: string;
-    lastName: string;
+    firstName: string = null;
+    lastName: string = null;
+    userName: string = null;
+    email: string = null;
+    password: string = null;
+    admin: false = null;
 }

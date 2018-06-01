@@ -1,18 +1,18 @@
 import { ApiModelProperty } from '@nestjs/swagger';
 import { IsString, IsInt, IsEmail } from 'class-validator';
 
-export class SignInUsersDto {
+export class SignInDto {
     @ApiModelProperty()
     @IsString()
-    readonly firstname: string;
-
-    @ApiModelProperty()
-    @IsInt()
-    readonly lastname: number;
+    readonly firstName: string;
 
     @ApiModelProperty()
     @IsString()
-    readonly username: string;
+    readonly lastName: string;
+
+    @ApiModelProperty()
+    @IsString()
+    readonly userName: string;
 
     @ApiModelProperty()
     @IsEmail()
