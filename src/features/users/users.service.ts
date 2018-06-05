@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { BaseService } from '../base.service';
 import { User } from '../../database/entities/users.entity';
 import { UsersRepository } from './users.repository';
-import { SignInDto } from './dto/signin.dto';
+import { UserDto } from './classes/signin.dto';
 
 @Injectable()
 export class UsersService extends BaseService {
@@ -11,13 +11,12 @@ export class UsersService extends BaseService {
         super();
     }
 
-    async create(signInDto: SignInDto) {
-        const user = this.directMapping(signInDto, User);
-
+    create(signInDto: UserDto) {
+        const user = this.directMapping<User>(signInDto, User);
         return this.usersRepository.index(user);
     }
 
-    async search(content: any): Promise<User[]> {
+    search(content: any): Promise<User[]> {
         return this.usersRepository.search(content).then(baseEntity => {
             return baseEntity.hits.hits;
         });

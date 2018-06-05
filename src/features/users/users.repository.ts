@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 
 import { esClient } from '../../database/elasticsearch.helper';
 import { User } from '../../database/entities/users.entity';
-import { BaseRepoEntity } from 'database/entities/base-repo.entity';
+import { BaseRepoEntity } from '../../database/entities/base-repo.entity';
 
 @Injectable()
 export class UsersRepository {

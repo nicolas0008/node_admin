@@ -1,16 +1,18 @@
-import { Controller, Post, Get, Body } from '@nestjs/common';
-import { ApiUseTags } from '@nestjs/swagger';
+import { Controller, Post, Get, Body, UseGuards } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
+import { ApiUseTags, ApiBearerAuth } from '@nestjs/swagger';
 
 import { UsersService } from './users.service';
-import { SignInDto } from '../users/dto/signin.dto';
+import { UserDto } from '../users/classes/signin.dto';
 
+@ApiBearerAuth()
 @ApiUseTags('Users')
 @Controller('users')
 export class UsersController {
     constructor(private readonly usersService: UsersService) { }
 
     @Post('signup')
-    async signUp(@Body() user: SignInDto) {
+    async signUp(@Body() user: UserDto) {
         return await this.usersService.create(user).then(body => {
             return 'The creation was ' + body.result;
         }, error => {
@@ -28,5 +30,11 @@ export class UsersController {
             // tslint:disable-next-line:no-console
             console.trace(error.message);
         });
+    }
+
+    @Get('data')
+    @UseGuards(AuthGuard('bearer'))
+    findAll() {
+        const a = 'asd';
     }
 }

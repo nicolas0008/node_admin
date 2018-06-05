@@ -9,8 +9,7 @@ import { UsersService } from './users.service';
     providers: [
         UsersService,
         UsersRepository
-    ]
+    ],
+    exports: [UsersService]
 })
-export class UsersModule {
-
-}
+export class UsersModule { }

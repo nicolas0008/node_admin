@@ -10,9 +10,10 @@ async function bootstrap() {
 
     const options = new DocumentBuilder()
         .setTitle('Termmed API')
-        .setDescription('The Termmed API description')
+        .setDescription('The Termspace API description')
         .setVersion('1.0')
         .addTag('Users')
+        .addBearerAuth()
         .build();
     const document = SwaggerModule.createDocument(app, options);
     SwaggerModule.setup('api', app, document);
