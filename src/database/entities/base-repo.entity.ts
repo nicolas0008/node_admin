@@ -10,6 +10,12 @@ export class BaseRepoEntity<T> {
     hits: {
         total: number;
         max_score: number;
-        hits: Array<T>;
+        hits: [{
+            _id: string;
+            _source: T;
+            _index: string;
+            _score: number;
+            _type: string;
+        }];
     };
 }

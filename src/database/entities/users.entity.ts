@@ -8,4 +8,5 @@ export class User {
     email: string;
     password: string;
     admin?: boolean;
+    _id: string;
 }

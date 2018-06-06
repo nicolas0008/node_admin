@@ -1,24 +1,37 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject, forwardRef } from '@nestjs/common';
 
 import { BaseService } from '../base.service';
-import { User } from '../../database/entities/users.entity';
+import { AuthService } from '../authentication/auth.service';
 import { UsersRepository } from './users.repository';
+import { User } from '../../database/entities/users.entity';
 import { UserDto } from './classes/signin.dto';
 
 @Injectable()
 export class UsersService extends BaseService {
-    constructor(private usersRepository: UsersRepository) {
+    constructor(
+        @Inject(forwardRef(() => AuthService))
+        private readonly authService: AuthService,
+        private readonly usersRepository: UsersRepository
+    ) {
         super();
     }
 
-    create(signInDto: UserDto) {
-        const user = this.directMapping<User>(signInDto, User);
+    async createToken(userDto: UserDto) {
+        const foundUser = await this.usersRepository.findOne(userDto);
+        return this.authService.createToken(foundUser);
+    }
+
+    createUser(signInDto: UserDto) {
+        const user = new User();
+        Object.assign(user, signInDto);
         return this.usersRepository.index(user);
     }
 
-    search(content: any): Promise<User[]> {
-        return this.usersRepository.search(content).then(baseEntity => {
-            return baseEntity.hits.hits;
+    findUser(userDto: UserDto): Promise<UserDto> {
+        return this.usersRepository.findOne(userDto).then(user => {
+            let returnDto = new UserDto();
+            returnDto = user ? Object.assign(returnDto, user) : null;
+            return returnDto;
         });
     }
 }
