@@ -5,12 +5,12 @@ export let esClient: ESClient;
 export let bodybuilder: any;
 
 export function initClient(hostUri: string): ESClient {
-    esClient = createClient(hostUri);
-    return esClient;
+    return createClient(hostUri);
 }
 
 export function createClient(hostUri: string): ESClient {
     const elasticsearch = require('elasticsearch');
+    bodybuilder = require('bodybuilder');
     const client = new ESClient();
     client.client = new elasticsearch.Client({
         host: hostUri
@@ -19,16 +19,11 @@ export function createClient(hostUri: string): ESClient {
 }
 
 export class DecoratorTypes {
-    static readonly Type = 'ESType';
     static readonly Index = 'ESIndex';
 }
 
 export class ESClient {
     client: any;
-
-    constructor() {
-        bodybuilder = require('bodybuilder');
-    }
 
     find<T>(content: {}, typeName: { new(): T; }): Promise<BaseRepoEntity<T>> {
         const str = JSON.parse(JSON.stringify(content));
@@ -53,7 +48,7 @@ export class ESClient {
     }
 
     findById<T>(_id: string, typeName: { new(): T; }): Promise<T> {
-        return esClient.client.get({
+        return this.client.get({
             index: this.getIndexMetadata(typeName),
             type: 'default',
             id: _id
