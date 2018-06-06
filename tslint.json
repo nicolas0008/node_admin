@@ -7,6 +7,12 @@
         "no-unused-expression": true
     },
     "rules": {
+        "trailing-comma": [
+            true, 
+            {
+                "multiline": {"arguments": "never"}
+            }
+        ],
         "eofline": false,
         "quotemark": [
             true,
