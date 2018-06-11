@@ -10,9 +10,9 @@ export class FeaturesService {
         private readonly featuresRepository: FeaturesRepository
     ) { }
 
-    async create(createFeatureDto: CreateFeatureDto): Promise<{ identity: string }> {
-        const user = await this.featuresRepository.index(createFeatureDto);
-        return { identity: user.identity };
+    async create(createFeatureDto: CreateFeatureDto): Promise<Feature> {
+        const feature = await this.featuresRepository.index(createFeatureDto);
+        return feature;
     }
 
     async fetchAll(): Promise<Feature[]> {

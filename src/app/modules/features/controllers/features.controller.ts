@@ -6,7 +6,7 @@ import { CreateUserDto, UsersService } from '../../users';
 import { CreateFeatureDto } from '../dtos';
 import { FeaturesService } from '../services/features/features.service';
 import { Feature } from '../entities/features.entity';
-import { IsLoggedInGuard, RolesGuard } from '../../common/guards';
+import { RolesGuard } from '../../common/guards';
 import { Roles } from '../../common/decorators';
 
 @ApiUseTags('Features')
@@ -26,7 +26,7 @@ export class FeaturesController {
     // Http decorators
     @Post('create')
     @HttpCode(HttpStatus.CREATED)
-    async create(@Body() createUserDto: CreateFeatureDto): Promise<{ identity: string }> {
+    async create(@Body() createUserDto: CreateFeatureDto): Promise<Feature> {
         return await this.featuresService.create(createUserDto);
     }
 

@@ -11,12 +11,10 @@ import { UnauthorizedException } from '../../common/exceptions/unauthorized.exce
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
     constructor(private readonly usersService: UsersService) {
-        super(
-            {
-                jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-                secretOrKey: 'secretKey'
-            }
-        );
+        super({
+            jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+            secretOrKey: 'secretKey'
+        });
     }
 
     public async validate(payload: JWTPayload, done: any) {

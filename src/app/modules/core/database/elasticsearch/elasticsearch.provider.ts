@@ -7,7 +7,7 @@ export class ElasticSearchProvider {
     client: elasticsearch.Client;
 
     constructor() {
-        this.initClient('https://elastic:F7pBlVF1OZL39j515vSIlrrF@3fc4d279e6cf43f29ea6239b8a6f370e.sa-east-1.aws.found.io:9243');
+        this.initClient('https://elastic:F7pBlVF1OZL39j515vSIlrrF@3fc4d279e6cf43f29ea6239b8a6f370e.sa-east-1.aws.found.io:9243'); // config
     }
 
     initClient = (hostUri: string) => {
