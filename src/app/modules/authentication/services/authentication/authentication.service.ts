@@ -7,6 +7,7 @@ import { UnauthorizedException } from '../../../common/exceptions';
 import { JWTToken } from '../../interfaces/jwt-token.interface';
 import { User } from '../../../users/entities/users.entity';
 import { JWTPayload } from '../../interfaces/jwt-payload.interface';
+import { AuthorizedUser } from '../../../users';
 
 @Injectable()
 export class AuthenticationService {
@@ -31,6 +32,7 @@ export class AuthenticationService {
         return {
             expires_in: expiresIn,
             access_token: token,
+            user: new AuthorizedUser(user)
         };
     }
 }
