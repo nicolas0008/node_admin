@@ -1,1 +1,1 @@
-export * from './features/features.service';
+export * from './features.service';

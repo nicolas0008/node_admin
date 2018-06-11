@@ -4,7 +4,7 @@ import { AuthGuard } from '@nestjs/passport';
 
 import { CreateUserDto, UsersService } from '../../users';
 import { CreateFeatureDto } from '../dtos';
-import { FeaturesService } from '../services/features/features.service';
+import { FeaturesService } from '../services/features.service';
 import { Feature } from '../entities/features.entity';
 import { RolesGuard } from '../../common/guards';
 import { Roles } from '../../common/decorators';

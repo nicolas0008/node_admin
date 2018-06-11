@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 
-import { FeaturesRepository } from '../../repository';
-import { Feature } from '../../entities/features.entity';
-import { CreateFeatureDto } from '../../dtos';
+import { FeaturesRepository } from '../repository';
+import { Feature } from '../entities/features.entity';
+import { CreateFeatureDto } from '../dtos';
 
 @Injectable()
 export class FeaturesService {
