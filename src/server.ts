@@ -7,10 +7,12 @@ async function bootstrap() {
     const app = await NestFactory.create(AppModule);
 
     const options = new DocumentBuilder()
+        .setBasePath('./')
         .setTitle('Termmed API')
         .setDescription('The Termspace API description')
         .setVersion('1.0')
         .addTag('Auth')
+        .addTag('Features')
         .addBearerAuth()
         .build();
     const document = SwaggerModule.createDocument(app, options);

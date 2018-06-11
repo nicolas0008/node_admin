@@ -6,6 +6,7 @@ import { UserLoginDto } from '../../dtos/user-login.dto';
 import { UnauthorizedException } from '../../../common/exceptions';
 import { JWTToken } from '../../interfaces/jwt-token.interface';
 import { User } from '../../../users/entities/users.entity';
+import { JWTPayload } from '../../interfaces/jwt-payload.interface';
 
 @Injectable()
 export class AuthenticationService {
@@ -23,7 +24,10 @@ export class AuthenticationService {
     createToken(user: User): JWTToken {
         const expiresIn = 3600; // config
         const secretOrKey = 'secretKey'; // config
-        const token = jwt.sign({ u_id: user.identity }, secretOrKey, { expiresIn });
+        const payload: JWTPayload = {
+            u_id: user.id
+        };
+        const token = jwt.sign(payload, secretOrKey, { expiresIn });
         return {
             expires_in: expiresIn,
             access_token: token,

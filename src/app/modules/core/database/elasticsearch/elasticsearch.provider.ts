@@ -16,6 +16,13 @@ export class ElasticSearchProvider {
         });
     }
 
+    searchAll<T>(typeName: { new(): T; }): Promise<elasticsearch.SearchResponse<T>> {
+        return this.client.search<T>({
+            index: this.getIndexMetadata(typeName),
+            type: 'default'
+        });
+    }
+
     search<T>(content: {}, typeName: { new(): T; }): Promise<elasticsearch.SearchResponse<T>> {
         const str = JSON.parse(JSON.stringify(content));
         const build = bodybuilder();
@@ -25,7 +32,7 @@ export class ElasticSearchProvider {
             }
         }
 
-        return this.client.search({
+        return this.client.search<T>({
             index: this.getIndexMetadata(typeName),
             type: 'default',
             body: build.build()
@@ -33,18 +40,24 @@ export class ElasticSearchProvider {
     }
 
     searchOne<T>(content: {}, typeName: { new(): T; }): Promise<T> {
-        return this.search(content, typeName).then((resp: elasticsearch.SearchResponse<T>) => {
-            return (resp.hits.total > 0) ? resp.hits.hits[0]._source : null;
+        return this.search<T>(content, typeName).then((resp: elasticsearch.SearchResponse<T>) => {
+            const response = new typeName();
+            if (resp.hits.total > 0) {
+                Object.assign(response, resp.hits.hits[0]._source, { id: resp.hits.hits[0]._id });
+            }
+            return response;
         });
     }
 
     searchById<T>(_id: string, typeName: { new(): T; }): Promise<T> {
-        return this.client.get({
+        return this.client.get<T>({
             index: this.getIndexMetadata(typeName),
             type: 'default',
             id: _id
         }).then((resp: elasticsearch.GetResponse<T>) => {
-            return resp._source;
+            const response = new typeName();
+            Object.assign(response, resp._source, { id: resp._id });
+            return response;
         });
     }
 
@@ -63,7 +76,7 @@ export class ElasticSearchProvider {
     }
 
     private getMetadata<T>(str: string, obj: { new(): T; }): string {
-        return   Reflect.getMetadata(str, new obj().constructor);
+        return Reflect.getMetadata(str, new obj().constructor);
     }
 }
 

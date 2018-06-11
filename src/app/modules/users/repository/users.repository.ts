@@ -13,18 +13,10 @@ export class UsersRepository {
     }
 
     async findOne(content: any): Promise<User> {
-        return this.returnTypedUser(this.elasticSearchProvider.searchOne(content, User));
+        return this.elasticSearchProvider.searchOne(content, User);
     }
 
     async findById(id: string): Promise<User> {
-        return this.elasticSearchProvider.searchById(id, User);
-    }
-
-    private returnTypedUser(promise: Promise<User>): Promise<User> {
-        return promise.then((user: User) => {
-            const userAux = new User();
-            userAux.fromUntypedUser(user);
-            return userAux;
-        });
+        return this.elasticSearchProvider.searchById<User>(id, User);
     }
 }
