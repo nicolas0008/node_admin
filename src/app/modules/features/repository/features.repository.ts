@@ -18,7 +18,7 @@ export class FeaturesRepository {
             const featureArr = new Array<Feature>();
             resp.hits.hits.forEach(feature => {
                 const featAux = new Feature();
-                Object.assign(featAux, feature._source);
+                Object.assign(featAux, feature._source, { id: feature._id });
                 featureArr.push(featAux);
             });
             return featureArr;

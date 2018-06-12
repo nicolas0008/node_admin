@@ -2,6 +2,7 @@ import { ESIndex } from '../../core/database/elasticsearch/elasticsearch.provide
 
 @ESIndex('roles')
 export class Role {
+    id: string;
 	name: string;
 	description: string;
     projectId: string;

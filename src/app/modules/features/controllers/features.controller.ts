@@ -21,13 +21,13 @@ export class FeaturesController {
     @ApiResponse({ status: 201, description: 'Feature Created' })
     @ApiBearerAuth()
     // Authentication decorators
-    // @Roles('admin')
+    @Roles('Admin')
     @UseGuards(AuthGuard('jwt'), RolesGuard)
     // Http decorators
     @Post('create')
     @HttpCode(HttpStatus.CREATED)
-    async create(@Body() createUserDto: CreateFeatureDto): Promise<Feature> {
-        return await this.featuresService.create(createUserDto);
+    async create(@Body() createFeatureDto: CreateFeatureDto): Promise<Feature> {
+        return await this.featuresService.create(createFeatureDto);
     }
 
     // Swagger decorators
@@ -35,7 +35,7 @@ export class FeaturesController {
     @ApiResponse({ status: 200, description: 'Features list' })
     @ApiBearerAuth()
     // Authentication decorators
-    // @Roles('admin')
+    @Roles('Admin')
     @UseGuards(AuthGuard('jwt'), RolesGuard)
     // Http decorators
     @Post()

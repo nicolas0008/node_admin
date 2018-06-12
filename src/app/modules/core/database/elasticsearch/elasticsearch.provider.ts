@@ -1,12 +1,14 @@
 import { Injectable, ReflectMetadata } from '@nestjs/common';
 import * as elasticsearch from 'elasticsearch';
 import * as bodybuilder from 'bodybuilder';
+import { Reflector } from '@nestjs/core';
+import { DecoratorTypes } from '../../../common/decorators/ESIndex.decorator';
 
 @Injectable()
 export class ElasticSearchProvider {
     client: elasticsearch.Client;
 
-    constructor() {
+    constructor(private readonly reflector: Reflector) {
         this.initClient('https://elastic:F7pBlVF1OZL39j515vSIlrrF@3fc4d279e6cf43f29ea6239b8a6f370e.sa-east-1.aws.found.io:9243'); // config
     }
 
@@ -72,20 +74,6 @@ export class ElasticSearchProvider {
     }
 
     private getIndexMetadata<T>(obj: { new(): T; }): string {
-        return this.getMetadata(DecoratorTypes.Index, obj);
+        return this.reflector.get<string>(DecoratorTypes.Index, obj);
     }
-
-    private getMetadata<T>(str: string, obj: { new(): T; }): string {
-        return Reflect.getMetadata(str, new obj().constructor);
-    }
-}
-
-export class DecoratorTypes {
-    static readonly Index = 'ESIndex';
-}
-
-export function ESIndex(value: string) {
-    return target => {
-        Reflect.defineMetadata(DecoratorTypes.Index, value, target);
-    };
 }

@@ -5,6 +5,7 @@ import { AuthenticationModule, JwtStrategy } from './modules/authentication';
 import { CoreModule } from './modules/core';
 import { UsersModule } from './modules/users';
 import { FeaturesModule } from './modules/features';
+import { RolesModule } from './modules/roles';
 
 @Module({
     imports: [
@@ -12,7 +13,8 @@ import { FeaturesModule } from './modules/features';
         CoreModule,
         UsersModule,
         FeaturesModule,
-        AuthenticationModule
+        AuthenticationModule,
+        RolesModule
     ],
     providers: [
         JwtStrategy

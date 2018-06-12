@@ -2,6 +2,7 @@ import { ESIndex } from '../../core/database/elasticsearch/elasticsearch.provide
 
 @ESIndex('features')
 export class Feature {
+    id: string;
     name: string;
     description: string;
 }
