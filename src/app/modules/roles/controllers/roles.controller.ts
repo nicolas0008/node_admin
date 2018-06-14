@@ -34,7 +34,7 @@ export class RolesController {
     @ApiResponse({ status: 200, description: 'Roles list' })
     @ApiBearerAuth()
     // Authentication decorators
-    @Roles(RoleType.Admin)
+    // @Roles(RoleType.Admin)
     @UseGuards(AuthGuard('jwt'), RolesGuard)
     // Http decorators
     @Get()

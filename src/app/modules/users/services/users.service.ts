@@ -50,7 +50,7 @@ export class UsersService {
     }
 
     async getRoles(user: User): Promise<User> {
-        if (user.roles.length > 0) {
+        if (user.roles && user.roles.length > 0) {
             user.rolesObj = await this.rolesService.fetchByIds(user.roles, true);
         }
         return user;

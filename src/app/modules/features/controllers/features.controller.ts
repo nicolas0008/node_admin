@@ -1,4 +1,4 @@
-import { Controller, Post, HttpStatus, HttpCode, Body, UseInterceptors, UseGuards } from '@nestjs/common';
+import { Controller, Post, HttpStatus, HttpCode, Body, UseInterceptors, UseGuards, Get } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiUseTags, ApiBearerAuth } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 
@@ -37,7 +37,7 @@ export class FeaturesController {
     @Roles(RoleType.Admin)
     @UseGuards(AuthGuard('jwt'), RolesGuard)
     // Http decorators
-    @Post()
+    @Get()
     @HttpCode(HttpStatus.OK)
     async findAll(): Promise<Feature[]> {
         return await this.featuresService.fetchAll();

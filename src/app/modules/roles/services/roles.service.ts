@@ -38,7 +38,9 @@ export class RolesService {
     async fetchByIds(roleIds: string[], fetchFeatures = false): Promise<Role[]> {
         const roles = await this.rolesRepository.findByIds(roleIds);
         if (fetchFeatures) {
-            roles.forEach(role => this.getFeatures(role));
+            for (let role of roles) {
+                role = await this.getFeatures(role);
+            }
         }
         return roles;
     }
@@ -50,7 +52,7 @@ export class RolesService {
     }
 
     async getFeatures(role: Role): Promise<Role>{
-        if (role.features.length > 0) {
+        if (role.features && role.features.length > 0) {
             role.featuresObj = await this.featuresService.fetchByIds(role.features);
         }
         return role;

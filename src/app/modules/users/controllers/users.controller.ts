@@ -37,7 +37,7 @@ export class UsersController {
     @Roles(RoleType.Admin)
     @UseGuards(AuthGuard('jwt'), RolesGuard)
     // Http decorators
-    @Get('getAll')
+    @Get()
     @HttpCode(HttpStatus.OK)
     async findAll(): Promise<User[]> {
         return await this.usersService.fetchAll(true);
@@ -65,7 +65,7 @@ export class UsersController {
     @Roles(RoleType.Admin)
     @UseGuards(AuthGuard('jwt'), RolesGuard)
     // Http decorators
-    @Get(':id')
+    @Get('findOne:id')
     @HttpCode(HttpStatus.OK)
     async find(@Param('id') id: string): Promise<User> {
         return await this.usersService.fetchById(id, true);
