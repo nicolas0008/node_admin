@@ -4,9 +4,8 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import * as passport from 'passport';
 import * as express from 'express';
 
-import { JWTPayload } from '../interfaces/jwt-payload.interface';
-import { UsersService, AuthorizedUser } from '../../users';
-import { UnauthorizedException } from '../../common/exceptions/unauthorized.exception';
+import { AuthorizedUser, UnauthorizedException, JWTPayload } from '../../';
+import { UsersService } from '../../users/services/users.service';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -22,7 +21,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
             throw new UnauthorizedException();
         }
 
-        const user = await this.usersService.fetchByIdentity(payload.u_id);
+        const user = await this.usersService.fetchById(payload.u_id, true);
         if (!user) {
             throw new UnauthorizedException();
         }

@@ -1,23 +1,18 @@
 import { Module } from '@nestjs/common';
 
-import { CommonModule } from './modules/common/common.module';
-import { AuthenticationModule, JwtStrategy } from './modules/authentication';
-import { CoreModule } from './modules/core';
-import { UsersModule } from './modules/users';
-import { FeaturesModule } from './modules/features';
-import { RolesModule } from './modules/roles';
+import { CoreModule } from './modules/core/core.module';
+import { UsersModule } from './modules/users/users.module';
+import { FeaturesModule } from './modules/features/features.module';
+import { RolesModule } from './modules/roles/roles.module';
+import { AuthenticationModule } from './modules/authentication/authentication.module';
 
 @Module({
     imports: [
-        CommonModule,
         CoreModule,
         UsersModule,
         FeaturesModule,
         AuthenticationModule,
         RolesModule
-    ],
-    providers: [
-        JwtStrategy
-    ],
+    ]
 })
 export class AppModule { }

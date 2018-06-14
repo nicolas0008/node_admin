@@ -2,12 +2,11 @@ import { Controller, Post, HttpStatus, HttpCode, Body, UseInterceptors, UseGuard
 import { ApiOperation, ApiResponse, ApiUseTags, ApiBearerAuth } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 
-import { CreateUserDto, UsersService } from '../../users';
-import { CreateFeatureDto } from '../dtos';
+import { CreateFeatureDto } from '../';
 import { FeaturesService } from '../services/features.service';
+import { RolesGuard } from '../../common/guards/roles.guard';
+import { Roles, RoleType } from '../../common/decorators/roles.decorator';
 import { Feature } from '../entities/features.entity';
-import { RolesGuard } from '../../common/guards';
-import { Roles } from '../../common/decorators';
 
 @ApiUseTags('Features')
 @Controller('features')
@@ -21,7 +20,7 @@ export class FeaturesController {
     @ApiResponse({ status: 201, description: 'Feature Created' })
     @ApiBearerAuth()
     // Authentication decorators
-    @Roles('Admin')
+    @Roles(RoleType.Admin)
     @UseGuards(AuthGuard('jwt'), RolesGuard)
     // Http decorators
     @Post('create')
@@ -35,7 +34,7 @@ export class FeaturesController {
     @ApiResponse({ status: 200, description: 'Features list' })
     @ApiBearerAuth()
     // Authentication decorators
-    @Roles('Admin')
+    @Roles(RoleType.Admin)
     @UseGuards(AuthGuard('jwt'), RolesGuard)
     // Http decorators
     @Post()

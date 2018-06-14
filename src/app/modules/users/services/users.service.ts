@@ -1,27 +1,58 @@
 import { Injectable } from '@nestjs/common';
 
-import { CreateUserDto } from '../dtos/create-user.dto';
-import { UsersRepository } from '../repository';
+import { RolesService } from '../../roles/services/roles.service';
+import { CreateUserDto, UpdateUserDto } from '../';
+import { UsersRepository } from '../repository/users.repository';
 import { User } from '../entities/users.entity';
 
 @Injectable()
 export class UsersService {
     constructor(
-        private readonly usersRepository: UsersRepository
+        private readonly usersRepository: UsersRepository,
+        private readonly rolesService: RolesService
     ) { }
 
-    async create(createUserDto: CreateUserDto): Promise<{ identity: string }> {
+    async create(createUserDto: CreateUserDto): Promise<{ id: string }> {
         const user = await this.usersRepository.index(createUserDto);
-        return { identity: user.identity };
+        return { id: user.id };
     }
 
-    async fetchByEmail(email: string): Promise<User> {
-        const user = await this.usersRepository.findOne({ email });
+    async fetchByEmail(email: string, fetchRoles = false): Promise<User> {
+        let user = await this.usersRepository.findOne({ email });
+        if (fetchRoles) {
+            user = await this.getRoles(user);
+        }
         return user;
     }
 
-    async fetchByIdentity(u_id: string): Promise<User> {
-        const user = await this.usersRepository.findById(u_id);
+    async fetchById(u_id: string, fetchRoles = false): Promise<User> {
+        let user = await this.usersRepository.findById(u_id);
+        if (fetchRoles) {
+            user = await this.getRoles(user);
+        }
+        return user;
+    }
+
+    async fetchAll(fetchRoles = false): Promise<User[]> {
+        const users = await this.usersRepository.findAll();
+        if (fetchRoles) {
+            for (let user of users) {
+                user = await this.getRoles(user);
+            }
+        }
+        return users;
+    }
+
+    async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
+        const updatedUser = new User();
+        Object.assign(updatedUser, updateUserDto);
+        return await this.usersRepository.updateById(id, updatedUser);
+    }
+
+    async getRoles(user: User): Promise<User> {
+        if (user.roles.length > 0) {
+            user.rolesObj = await this.rolesService.fetchByIds(user.roles, true);
+        }
         return user;
     }
 }

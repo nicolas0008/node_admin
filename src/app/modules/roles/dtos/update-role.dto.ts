@@ -1,16 +1,16 @@
-import { ApiModelProperty, ApiModelPropertyOptional } from '@nestjs/swagger';
+import { ApiModelPropertyOptional } from '@nestjs/swagger';
 import { IsString, IsArray } from 'class-validator';
 
-export class CreateRoleDto {
-    @ApiModelProperty()
+export class UpdateRoleDto {
+    @ApiModelPropertyOptional()
     @IsString()
     readonly name: string;
 
-    @ApiModelProperty()
+    @ApiModelPropertyOptional()
     @IsString()
     readonly description: string;
 
-    @ApiModelProperty()
+    @ApiModelPropertyOptional()
     @IsString()
     readonly projectId: string;
 

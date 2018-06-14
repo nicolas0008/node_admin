@@ -1,3 +1,4 @@
+import { Role } from '../../roles/entities/roles.entity';
 import { User } from '../entities/users.entity';
 
 export class AuthorizedUser {
@@ -5,19 +6,19 @@ export class AuthorizedUser {
     firstName: string;
     lastName: string;
     email: string;
-    roles: string[];
+    rolesObj: Role[];
 
     constructor(user: User) {
         this.id = user.id;
         this.firstName = user.firstName;
         this.lastName = user.lastName;
         this.email = user.email;
-        this.roles = user.roles;
+        this.rolesObj = user.rolesObj;
     }
 
     hasRoles = (role: string[]) => {
-        if (this.roles) {
-            return this.roles.some(r => role.indexOf(r) >= 0);
+        if (this.rolesObj) {
+            return this.rolesObj.some(r => role.indexOf(r.name) >= 0);
         }
         return false;
     }

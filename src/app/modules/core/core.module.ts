@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { ElasticSearchProvider } from './database/elasticsearch/elasticsearch.provider';
+import { ElasticSearchProvider } from './database/elasticsearch';
 
 @Module({
     providers: [

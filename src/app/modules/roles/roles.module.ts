@@ -1,14 +1,15 @@
 import { Module } from '@nestjs/common';
 
-import { UsersModule } from '../users';
-import { CoreModule } from '../core';
-import { RolesController } from './controllers';
-import { RolesService } from './services';
-import { RolesRepository } from './repository';
+import { CoreModule } from '../core/core.module';
+import { FeaturesModule } from '../features/features.module';
+import { RolesService } from './services/roles.service';
+import { RolesRepository } from './repository/roles.repository';
+import { RolesController } from './controllers/roles.controller';
 
 @Module({
     imports: [
-        CoreModule
+        CoreModule,
+        FeaturesModule
     ],
     providers: [
         RolesService,
@@ -17,5 +18,8 @@ import { RolesRepository } from './repository';
     controllers: [
         RolesController
     ],
+    exports: [
+        RolesService
+    ]
 })
 export class RolesModule { }

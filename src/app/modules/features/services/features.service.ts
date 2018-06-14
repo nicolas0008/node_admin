@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 
-import { FeaturesRepository } from '../repository';
+import { CreateFeatureDto, UpdateFeatureDto } from '../';
+import { FeaturesRepository } from '../repository/features.repository';
 import { Feature } from '../entities/features.entity';
-import { CreateFeatureDto } from '../dtos';
 
 @Injectable()
 export class FeaturesService {
@@ -18,5 +18,16 @@ export class FeaturesService {
     async fetchAll(): Promise<Feature[]> {
         const features = await this.featuresRepository.findAll();
         return features;
+    }
+
+    async update(id: string, updatedFeatureDto: UpdateFeatureDto): Promise<Feature> {
+        const updatedFeature = new Feature();
+        Object.assign(updatedFeature, updatedFeatureDto);
+        return await this.featuresRepository.updateById(id, updatedFeature);
+    }
+
+    async fetchByIds(featureIds: string[]): Promise<Feature[]> {
+        const roles = await this.featuresRepository.findByIds(featureIds);
+        return roles;
     }
 }

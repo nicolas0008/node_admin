@@ -1,13 +1,11 @@
-import * as jwt from 'jsonwebtoken';
 import { Injectable } from '@nestjs/common';
 
-import { UsersService } from '../../users/services';
-import { UserLoginDto } from '../dtos/user-login.dto';
-import { UnauthorizedException } from '../../common/exceptions';
-import { JWTToken } from '../interfaces/jwt-token.interface';
-import { User } from '../../users/entities/users.entity';
-import { JWTPayload } from '../interfaces/jwt-payload.interface';
+import * as jwt from 'jsonwebtoken';
+import { JWTToken, JWTPayload, UserLoginDto } from '../';
 import { AuthorizedUser } from '../../users';
+import { UnauthorizedException } from '../../common';
+import { UsersService } from '../../users/services/users.service';
+import { User } from '../../users/entities/users.entity';
 
 @Injectable()
 export class AuthenticationService {
@@ -23,7 +21,7 @@ export class AuthenticationService {
     }
 
     private createToken(user: User): JWTToken {
-        const expiresIn = 3600; // config
+        const expiresIn = 90000; // config
         const secretOrKey = 'secretKey'; // config
         const payload: JWTPayload = {
             u_id: user.id

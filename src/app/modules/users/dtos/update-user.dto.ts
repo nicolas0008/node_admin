@@ -1,14 +1,14 @@
-import { ApiModelProperty, ApiModelPropertyOptional } from '@nestjs/swagger';
+import { ApiModelPropertyOptional } from '@nestjs/swagger';
 import { IsString, IsArray } from 'class-validator';
 
-export class CreateUserDto {
-    @ApiModelProperty()
+export class UpdateUserDto {
+    @ApiModelPropertyOptional()
     @IsString()
-    readonly email: string;
+    readonly email?: string;
 
-    @ApiModelProperty()
+    @ApiModelPropertyOptional()
     @IsString()
-    readonly password: string;
+    readonly password?: string;
 
     @ApiModelPropertyOptional()
     @IsString()
@@ -18,9 +18,9 @@ export class CreateUserDto {
     @IsString()
     readonly lastName?: string;
 
-    @ApiModelProperty()
+    @ApiModelPropertyOptional()
     @IsString()
-    readonly userName: string;
+    readonly userName?: string;
 
     @ApiModelPropertyOptional({ type: String, isArray: true})
     @IsArray()

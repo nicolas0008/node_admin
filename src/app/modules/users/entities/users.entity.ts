@@ -1,4 +1,5 @@
-import { ESIndex } from '../../core/database/elasticsearch/elasticsearch.provider';
+import { ESIndex } from '../../common/decorators/es-index.decorator';
+import { Role } from '../../roles/entities/roles.entity';
 
 @ESIndex('users')
 export class User {
@@ -9,6 +10,7 @@ export class User {
     password: string;
     admin?: boolean;
     roles?: string[];
+    rolesObj?: Role[];
     id?: string;
 
     comparePassword = (password: string) => {

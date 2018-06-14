@@ -1,4 +1,5 @@
-import { ESIndex } from '../../core/database/elasticsearch/elasticsearch.provider';
+import { ESIndex } from '../../common/decorators/es-index.decorator';
+import { Feature } from '../../features/entities/features.entity';
 
 @ESIndex('roles')
 export class Role {
@@ -6,7 +7,6 @@ export class Role {
 	name: string;
 	description: string;
     projectId: string;
-	features: [{
-        featureId: string;
-    }];
+    features?: string[];
+    featuresObj?: Feature[];
 }

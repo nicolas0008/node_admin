@@ -4,3 +4,4 @@ export * from './validation.exception';
 export * from './base.exception';
 export * from './logged.exception';
 export * from './passive.exception';
+export * from './elasticsearch.exception';
