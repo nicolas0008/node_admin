@@ -5,6 +5,7 @@ import { UsersModule } from './modules/users/users.module';
 import { FeaturesModule } from './modules/features/features.module';
 import { RolesModule } from './modules/roles/roles.module';
 import { AuthenticationModule } from './modules/authentication/authentication.module';
+import { JwtStrategy } from './modules/authentication/passport/jwt.strategy';
 
 @Module({
     imports: [
@@ -13,6 +14,9 @@ import { AuthenticationModule } from './modules/authentication/authentication.mo
         FeaturesModule,
         AuthenticationModule,
         RolesModule
+    ],
+    providers: [
+        JwtStrategy
     ]
 })
 export class AppModule { }

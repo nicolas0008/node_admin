@@ -1,7 +1,7 @@
 import { ESIndex } from '../../common/decorators/es-index.decorator';
 
-@ESIndex('proyects')
-export class Proyect {
+@ESIndex('projects')
+export class Project {
     name: string;
 	description: string;
 	members: [{
