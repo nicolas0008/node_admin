@@ -69,6 +69,6 @@ export class ProjectsController {
     @Get(':id')
     @HttpCode(HttpStatus.OK)
     async find(@Param('id') id: string): Promise<Project> {
-        return await this.projectsService.fetchById(id);
+        return await this.projectsService.fetchById(id, true, true);
     }
 }

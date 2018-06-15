@@ -33,6 +33,16 @@ export class UsersService {
         return user;
     }
 
+    async fetchByIds(featureIds: string[], fetchRoles = false): Promise<User[]> {
+        const users = await this.usersRepository.findByIds(featureIds);
+        if (fetchRoles) {
+            for (let user of users) {
+                user = await this.getRoles(user);
+            }
+        }
+        return users;
+    }
+
     async fetchAll(fetchRoles = false): Promise<User[]> {
         const users = await this.usersRepository.findAll();
         if (fetchRoles) {
