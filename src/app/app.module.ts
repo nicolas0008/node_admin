@@ -5,6 +5,7 @@ import { UsersModule } from './modules/users/users.module';
 import { FeaturesModule } from './modules/features/features.module';
 import { RolesModule } from './modules/roles/roles.module';
 import { AuthenticationModule } from './modules/authentication/authentication.module';
+import { ProjectsModule } from './modules/projects/projects.module';
 import { JwtStrategy } from './modules/authentication/passport/jwt.strategy';
 
 @Module({
@@ -13,7 +14,8 @@ import { JwtStrategy } from './modules/authentication/passport/jwt.strategy';
         UsersModule,
         FeaturesModule,
         AuthenticationModule,
-        RolesModule
+        RolesModule,
+        ProjectsModule
     ],
     providers: [
         JwtStrategy
