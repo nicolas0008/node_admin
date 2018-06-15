@@ -6,6 +6,7 @@ import * as bodybuilder from 'bodybuilder';
 
 import { ElasticSearchException } from '../../../common/exceptions';
 import { DecoratorTypes } from '../../../common/decorators/es-index.decorator';
+import { DocumentCreatedDto } from '../../../common/dtos';
 
 @Injectable()
 export class ElasticSearchProvider {
@@ -112,14 +113,14 @@ export class ElasticSearchProvider {
         });
     }
 
-    index<T>(content: any, instance: { new(): T; }) {
+    index<T>(content: any, instance: { new(): T; }): Promise<DocumentCreatedDto> {
         return this.client.index({
             index: this.getIndexMetadata(instance),
             type: 'default',
             body: content
-        }).catch(error => {
-            throw new ElasticSearchException(error);
-        });
+        })
+        .then(resp => new DocumentCreatedDto(resp._id))
+        .catch(error => { throw new ElasticSearchException(error); });
     }
 
     private getIndexMetadata<T>(obj: T): string {

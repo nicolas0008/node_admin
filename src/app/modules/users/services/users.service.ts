@@ -4,6 +4,7 @@ import { RolesService } from '../../roles/services/roles.service';
 import { CreateUserDto, UpdateUserDto } from '../';
 import { UsersRepository } from '../repository/users.repository';
 import { User } from '../entities/users.entity';
+import { DocumentCreatedDto } from '../../common/dtos';
 
 @Injectable()
 export class UsersService {
@@ -12,9 +13,8 @@ export class UsersService {
         private readonly rolesService: RolesService
     ) { }
 
-    async create(createUserDto: CreateUserDto): Promise<{ id: string }> {
-        const user = await this.usersRepository.index(createUserDto);
-        return { id: user.id };
+    async create(createUserDto: CreateUserDto): Promise<DocumentCreatedDto> {
+        return await this.usersRepository.index(createUserDto);
     }
 
     async fetchByEmail(email: string, fetchRoles = false): Promise<User> {
@@ -31,6 +31,16 @@ export class UsersService {
             user = await this.getRoles(user);
         }
         return user;
+    }
+
+    async fetchByIds(featureIds: string[], fetchRoles = false): Promise<User[]> {
+        const users = await this.usersRepository.findByIds(featureIds);
+        if (fetchRoles) {
+            for (let user of users) {
+                user = await this.getRoles(user);
+            }
+        }
+        return users;
     }
 
     async fetchAll(fetchRoles = false): Promise<User[]> {

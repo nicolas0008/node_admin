@@ -1,10 +1,10 @@
 import { Controller, Post, HttpStatus, HttpCode, Body } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiUseTags } from '@nestjs/swagger';
 
-import { UserLoginDto, JWTToken} from '../';
-import { CreateUserDto } from '../../users';
+import { UserLoginDto, JWTToken, CreateUserDto } from '../../';
 import { AuthenticationService } from '../services/authentication.service';
 import { UsersService } from '../../users/services/users.service';
+import { DocumentCreatedDto } from '../../common/dtos';
 
 @ApiUseTags('Auth')
 @Controller('auth')
@@ -16,10 +16,10 @@ export class AuthenticationController {
 
     // Swagger decorators
     @ApiOperation({ description: 'Sign Up', operationId: 'signup', title: 'Sign Up' })
-    @ApiResponse({ status: 200, description: 'User Created' })
+    @ApiResponse({ status: 200, description: 'User Created', type: DocumentCreatedDto })
     // Http decorators
     @Post('signup')
-    async signup(@Body() createUserDto: CreateUserDto): Promise<{ id: string }> {
+    async signup(@Body() createUserDto: CreateUserDto): Promise<DocumentCreatedDto> {
         return await this.usersService.create(createUserDto);
     }
 

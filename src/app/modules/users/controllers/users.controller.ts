@@ -7,6 +7,7 @@ import { UsersService } from '../services/users.service';
 import { RolesGuard } from '../../common/guards/roles.guard';
 import { Roles, RoleType } from '../../common/decorators/roles.decorator';
 import { User } from '../entities/users.entity';
+import { DocumentCreatedDto } from '../../common/dtos';
 
 @ApiUseTags('Users')
 @Controller('users')
@@ -17,7 +18,7 @@ export class UsersController {
 
     // Swagger decorators
     @ApiOperation({ description: 'Create new user', operationId: 'createUser', title: 'Create new user' })
-    @ApiResponse({ status: 201, description: 'User Created' })
+    @ApiResponse({ status: 201, description: 'User Created', type: DocumentCreatedDto })
     @ApiBearerAuth()
     // Authentication decorators
     @Roles(RoleType.Admin)
@@ -25,7 +26,7 @@ export class UsersController {
     // Http decorators
     @Post('create')
     @HttpCode(HttpStatus.CREATED)
-    async create(@Body() createUserDto: CreateUserDto): Promise<{ id: string }> {
+    async create(@Body() createUserDto: CreateUserDto): Promise<DocumentCreatedDto> {
         return await this.usersService.create(createUserDto);
     }
 
@@ -65,7 +66,7 @@ export class UsersController {
     @Roles(RoleType.Admin)
     @UseGuards(AuthGuard('jwt'), RolesGuard)
     // Http decorators
-    @Get('findOne:id')
+    @Get(':id')
     @HttpCode(HttpStatus.OK)
     async find(@Param('id') id: string): Promise<User> {
         return await this.usersService.fetchById(id, true);

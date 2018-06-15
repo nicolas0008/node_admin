@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 
-import { CreateFeatureDto, UpdateFeatureDto } from '../';
+import { CreateFeatureDto, UpdateFeatureDto, DocumentCreatedDto } from '../../';
 import { FeaturesRepository } from '../repository/features.repository';
 import { Feature } from '../entities/features.entity';
 
@@ -10,14 +10,12 @@ export class FeaturesService {
         private readonly featuresRepository: FeaturesRepository
     ) { }
 
-    async create(createFeatureDto: CreateFeatureDto): Promise<Feature> {
-        const feature = await this.featuresRepository.index(createFeatureDto);
-        return feature;
+    async create(createFeatureDto: CreateFeatureDto): Promise<DocumentCreatedDto> {
+        return await this.featuresRepository.index(createFeatureDto);
     }
 
     async fetchAll(): Promise<Feature[]> {
-        const features = await this.featuresRepository.findAll();
-        return features;
+        return await this.featuresRepository.findAll();
     }
 
     async update(id: string, updatedFeatureDto: UpdateFeatureDto): Promise<Feature> {
@@ -27,7 +25,10 @@ export class FeaturesService {
     }
 
     async fetchByIds(featureIds: string[]): Promise<Feature[]> {
-        const roles = await this.featuresRepository.findByIds(featureIds);
-        return roles;
+        return await this.featuresRepository.findByIds(featureIds);
+    }
+
+    async fetchById(id: string): Promise<Feature> {
+        return await this.featuresRepository.findById(id);
     }
 }

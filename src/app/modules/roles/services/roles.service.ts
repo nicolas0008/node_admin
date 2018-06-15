@@ -4,6 +4,7 @@ import { FeaturesService } from '../../features/services/features.service';
 import { RolesRepository } from '../repository/roles.repository';
 import { CreateRoleDto, UpdateRoleDto } from '../';
 import { Role } from '../entities/roles.entity';
+import { DocumentCreatedDto } from '../../common/dtos';
 
 @Injectable()
 export class RolesService {
@@ -12,9 +13,8 @@ export class RolesService {
         private readonly featuresService: FeaturesService
     ) { }
 
-    async create(createRoleDto: CreateRoleDto): Promise<Role> {
-        const roles = await this.rolesRepository.index(createRoleDto);
-        return roles;
+    async create(createRoleDto: CreateRoleDto): Promise<DocumentCreatedDto> {
+        return await this.rolesRepository.index(createRoleDto);
     }
 
     async fetchAll(fetchFeatures = false): Promise<Role[]> {
