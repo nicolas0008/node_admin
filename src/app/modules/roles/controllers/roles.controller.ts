@@ -7,6 +7,7 @@ import { RolesService } from '../services/roles.service';
 import { RolesGuard } from '../../common/guards/roles.guard';
 import { Roles, RoleType } from '../../common/decorators/roles.decorator';
 import { Role } from '../entities/roles.entity';
+import { DocumentCreatedDto } from '../../common/dtos';
 
 @ApiUseTags('Roles')
 @Controller('roles')
@@ -17,7 +18,7 @@ export class RolesController {
 
     // Swagger decorators
     @ApiOperation({ description: 'Create new role', operationId: 'createRole', title: 'Create new role' })
-    @ApiResponse({ status: 201, description: 'Role Created' })
+    @ApiResponse({ status: 201, description: 'Role Created', type: DocumentCreatedDto })
     @ApiBearerAuth()
     // Authentication decorators
     @Roles(RoleType.Admin)
@@ -25,7 +26,7 @@ export class RolesController {
     // Http decorators
     @Post('create')
     @HttpCode(HttpStatus.CREATED)
-    async create(@Body() createRoleDto: CreateRoleDto): Promise<Role> {
+    async create(@Body() createRoleDto: CreateRoleDto): Promise<DocumentCreatedDto> {
         return await this.rolesService.create(createRoleDto);
     }
 

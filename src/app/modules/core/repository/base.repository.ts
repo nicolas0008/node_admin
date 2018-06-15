@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 
 import { ElasticSearchProvider } from '../../core/database/elasticsearch';
 import { SearchResponse, MGetResponse } from 'elasticsearch';
+import { DocumentCreatedDto } from '../..';
 
 export class BaseRepository<T> {
     constructor(
@@ -9,7 +10,7 @@ export class BaseRepository<T> {
         private readonly type: { new(): T; }
     ) { }
 
-    async index(dto: any) {
+    async index(dto: any): Promise<DocumentCreatedDto> {
         return this.esProvider.index(dto, this.type);
     }
 

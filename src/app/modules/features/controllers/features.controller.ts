@@ -7,6 +7,7 @@ import { FeaturesService } from '../services/features.service';
 import { RolesGuard } from '../../common/guards/roles.guard';
 import { Roles, RoleType } from '../../common/decorators/roles.decorator';
 import { Feature } from '../entities/features.entity';
+import { DocumentCreatedDto } from '../../common/dtos';
 
 @ApiUseTags('Features')
 @Controller('features')
@@ -17,7 +18,7 @@ export class FeaturesController {
 
     // Swagger decorators
     @ApiOperation({ description: 'Create new feature', operationId: 'createFeature', title: 'Create new feature' })
-    @ApiResponse({ status: 201, description: 'Feature Created' })
+    @ApiResponse({ status: 201, description: 'Feature Created', type: DocumentCreatedDto })
     @ApiBearerAuth()
     // Authentication decorators
     @Roles(RoleType.Admin)
@@ -25,7 +26,7 @@ export class FeaturesController {
     // Http decorators
     @Post('create')
     @HttpCode(HttpStatus.CREATED)
-    async create(@Body() createFeatureDto: CreateFeatureDto): Promise<Feature> {
+    async create(@Body() createFeatureDto: CreateFeatureDto): Promise<DocumentCreatedDto> {
         return await this.featuresService.create(createFeatureDto);
     }
 
