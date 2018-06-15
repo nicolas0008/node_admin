@@ -66,7 +66,7 @@ export class UsersController {
     @Roles(RoleType.Admin)
     @UseGuards(AuthGuard('jwt'), RolesGuard)
     // Http decorators
-    @Get('findOne:id')
+    @Get(':id')
     @HttpCode(HttpStatus.OK)
     async find(@Param('id') id: string): Promise<User> {
         return await this.usersService.fetchById(id, true);

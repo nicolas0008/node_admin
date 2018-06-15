@@ -1,8 +1,8 @@
-import { Controller, Post, HttpStatus, HttpCode, Body, UseInterceptors, UseGuards, Get } from '@nestjs/common';
+import { Controller, Post, HttpStatus, HttpCode, Body, UseInterceptors, UseGuards, Get, Put, Param } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiUseTags, ApiBearerAuth } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 
-import { CreateFeatureDto } from '../';
+import { CreateFeatureDto, UpdateFeatureDto } from '../';
 import { FeaturesService } from '../services/features.service';
 import { RolesGuard } from '../../common/guards/roles.guard';
 import { Roles, RoleType } from '../../common/decorators/roles.decorator';
@@ -42,5 +42,33 @@ export class FeaturesController {
     @HttpCode(HttpStatus.OK)
     async findAll(): Promise<Feature[]> {
         return await this.featuresService.fetchAll();
+    }
+
+    // Swagger decorators
+    @ApiOperation({ description: 'Update feature', operationId: 'updateFeature', title: 'Update feature' })
+    @ApiResponse({ status: 200, description: 'Feature updated' })
+    @ApiBearerAuth()
+    // Authentication decorators
+    @Roles(RoleType.Admin)
+    @UseGuards(AuthGuard('jwt'), RolesGuard)
+    // Http decorators
+    @Put(':id')
+    @HttpCode(HttpStatus.OK)
+    async update(@Param('id') id: string, @Body() updateFeatureDto: UpdateFeatureDto): Promise<Feature> {
+        return await this.featuresService.update(id, updateFeatureDto);
+    }
+
+    // Swagger decorators
+    @ApiOperation({ description: 'Find feature by Id', operationId: 'findFeatureById', title: 'Find feature by Id' })
+    @ApiResponse({ status: 200, description: 'Feature Found' })
+    @ApiBearerAuth()
+    // Authentication decorators
+    @Roles(RoleType.Admin)
+    @UseGuards(AuthGuard('jwt'), RolesGuard)
+    // Http decorators
+    @Get(':id')
+    @HttpCode(HttpStatus.OK)
+    async find(@Param('id') id: string): Promise<Feature> {
+        return await this.featuresService.fetchById(id);
     }
 }

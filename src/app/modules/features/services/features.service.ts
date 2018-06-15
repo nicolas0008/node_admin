@@ -15,8 +15,7 @@ export class FeaturesService {
     }
 
     async fetchAll(): Promise<Feature[]> {
-        const features = await this.featuresRepository.findAll();
-        return features;
+        return await this.featuresRepository.findAll();
     }
 
     async update(id: string, updatedFeatureDto: UpdateFeatureDto): Promise<Feature> {
@@ -26,7 +25,10 @@ export class FeaturesService {
     }
 
     async fetchByIds(featureIds: string[]): Promise<Feature[]> {
-        const roles = await this.featuresRepository.findByIds(featureIds);
-        return roles;
+        return await this.featuresRepository.findByIds(featureIds);
+    }
+
+    async fetchById(id: string): Promise<Feature> {
+        return await this.featuresRepository.findById(id);
     }
 }
