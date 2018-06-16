@@ -5,7 +5,7 @@ import { SearchResponse, Client, GetResponse, MGetResponse } from 'elasticsearch
 import * as bodybuilder from 'bodybuilder';
 
 import { ElasticSearchException } from '../../../common/exceptions';
-import { DecoratorTypes } from '../../../common/decorators/es-index.decorator';
+import { DecoratorTypes } from '../../../common/decorators';
 import { DocumentCreatedDto } from '../../../common/dtos';
 
 @Injectable()
@@ -22,7 +22,7 @@ export class ElasticSearchProvider {
         });
     }
 
-    findAll<T>(instance: { new(): T; }): Promise<T[]> {
+    fetchAll<T>(instance: { new(): T; }): Promise<T[]> {
         return this.client.search<T>({
             index: this.getIndexMetadata(instance),
             type: 'default'
@@ -39,7 +39,7 @@ export class ElasticSearchProvider {
         });
     }
 
-    find<T>(content: {}, instance: { new(): T; }): Promise<SearchResponse<T>> {
+    fetch<T>(content: {}, instance: { new(): T; }): Promise<SearchResponse<T>> {
         const build = bodybuilder();
         for (const prop in content) {
             if (content.hasOwnProperty(prop)) {
@@ -54,8 +54,8 @@ export class ElasticSearchProvider {
         });
     }
 
-    findOne<T>(content: {}, instance: { new(): T; }): Promise<T> {
-        return this.find<T>(content, instance).then((resp: SearchResponse<T>) => {
+    fetchOne<T>(content: {}, instance: { new(): T; }): Promise<T> {
+        return this.fetch<T>(content, instance).then((resp: SearchResponse<T>) => {
             const response = new instance();
             if (resp.hits.total > 0) {
                 Object.assign(response, resp.hits.hits[0]._source, { id: resp.hits.hits[0]._id });
@@ -66,7 +66,7 @@ export class ElasticSearchProvider {
         });
     }
 
-    findById<T>(_id: string, instance: { new(): T; }): Promise<T> {
+    fetchById<T>(_id: string, instance: { new(): T; }): Promise<T> {
         return this.client.get<T>({
             index: this.getIndexMetadata(instance),
             type: 'default',
@@ -80,7 +80,7 @@ export class ElasticSearchProvider {
         });
     }
 
-    findByIds<T>(_ids: string[], instance: { new(): T; }): Promise<T[]> {
+    fetchByIds<T>(_ids: string[], instance: { new(): T; }): Promise<T[]> {
         return this.client.mget<T>({
             index: this.getIndexMetadata(instance),
             type: 'default',

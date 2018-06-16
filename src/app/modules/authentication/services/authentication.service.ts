@@ -1,11 +1,12 @@
 import { Injectable } from '@nestjs/common';
-
 import * as jwt from 'jsonwebtoken';
-import { JWTToken, JWTPayload, UserLoginDto } from '../';
-import { AuthorizedUser } from '../../users';
-import { UnauthorizedException } from '../../common';
-import { UsersService } from '../../users/services/users.service';
-import { User } from '../../users/entities/users.entity';
+
+import { UsersService } from '../../users/services';
+import { UnauthorizedException } from '../../common/exceptions';
+import { User } from '../../users/entities';
+import { UserLoginDto } from '../dtos';
+import { AuthorizedUserDto } from '../../users/dtos';
+import { JWTToken, JWTPayload } from '../interfaces';
 
 @Injectable()
 export class AuthenticationService {
@@ -30,7 +31,7 @@ export class AuthenticationService {
         return {
             expires_in: expiresIn,
             access_token: token,
-            user: new AuthorizedUser(user)
+            user: new AuthorizedUserDto(user)
         };
     }
 }

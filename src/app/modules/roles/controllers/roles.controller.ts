@@ -2,13 +2,17 @@ import { Controller, Post, HttpStatus, HttpCode, Body, UseInterceptors, UseGuard
 import { ApiOperation, ApiResponse, ApiUseTags, ApiBearerAuth } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 
-import { CreateRoleDto, UpdateRoleDto } from '../';
-import { RolesService } from '../services/roles.service';
-import { RolesGuard } from '../../common/guards/roles.guard';
-import { Roles, RoleType } from '../../common/decorators/roles.decorator';
-import { Role } from '../entities/roles.entity';
+import { CreateRoleDto, RoleDto, UpdateRoleDto } from '../dtos';
+import { RolesService } from '../services';
+import { Role } from '../entities';
+import { Roles, RoleType } from '../../common/decorators';
 import { DocumentCreatedDto } from '../../common/dtos';
+import { RolesGuard } from '../../common/guards';
 
+@Roles(RoleType.Admin)
+@UseGuards(AuthGuard('jwt'), RolesGuard)
+@ApiResponse({ status: 401, description: 'Unauthorized.'})
+@ApiResponse({ status: 403, description: 'Forbidden.'})
 @ApiUseTags('Roles')
 @Controller('roles')
 export class RolesController {
@@ -16,59 +20,39 @@ export class RolesController {
         private readonly rolesService: RolesService
     ) { }
 
-    // Swagger decorators
     @ApiOperation({ description: 'Create new role', operationId: 'createRole', title: 'Create new role' })
     @ApiResponse({ status: 201, description: 'Role Created', type: DocumentCreatedDto })
     @ApiBearerAuth()
-    // Authentication decorators
-    @Roles(RoleType.Admin)
-    @UseGuards(AuthGuard('jwt'), RolesGuard)
-    // Http decorators
     @Post('create')
     @HttpCode(HttpStatus.CREATED)
-    async create(@Body() createRoleDto: CreateRoleDto): Promise<DocumentCreatedDto> {
-        return await this.rolesService.create(createRoleDto);
+    async create(@Body() createRole: CreateRoleDto): Promise<DocumentCreatedDto> {
+        return await this.rolesService.create(createRole);
     }
 
-    // Swagger decorators
-    @ApiOperation({ description: 'Find all roles', operationId: 'findAllRoles', title: 'Find all roles' })
-    @ApiResponse({ status: 200, description: 'Roles list' })
+    @ApiOperation({ description: 'Fetch all roles', operationId: 'fetchAllRoles', title: 'Fetch all roles' })
+    @ApiResponse({ status: 200, description: 'Roles list', type: Role, isArray: true })
     @ApiBearerAuth()
-    // Authentication decorators
-    // @Roles(RoleType.Admin)
-    @UseGuards(AuthGuard('jwt'), RolesGuard)
-    // Http decorators
     @Get()
     @HttpCode(HttpStatus.OK)
-    async findAll(): Promise<Role[]> {
+    async fetchAll(): Promise<RoleDto[]> {
         return await this.rolesService.fetchAll(true);
     }
 
-    // Swagger decorators
     @ApiOperation({ description: 'Update role', operationId: 'updateRole', title: 'Update role' })
-    @ApiResponse({ status: 200, description: 'Role updated' })
+    @ApiResponse({ status: 200, description: 'Role updated', type: Role })
     @ApiBearerAuth()
-    // Authentication decorators
-    @Roles(RoleType.Admin)
-    @UseGuards(AuthGuard('jwt'), RolesGuard)
-    // Http decorators
     @Put(':id')
     @HttpCode(HttpStatus.OK)
-    async update(@Param('id') id: string, @Body() updateRoleDto: UpdateRoleDto): Promise<Role> {
-        return await this.rolesService.update(id, updateRoleDto);
+    async update(@Param('id') id: string, @Body() updateRole: UpdateRoleDto): Promise<Role> {
+        return await this.rolesService.update(id, updateRole);
     }
 
-    // Swagger decorators
-    @ApiOperation({ description: 'Find role by Id', operationId: 'findRoleById', title: 'Find role by Id' })
-    @ApiResponse({ status: 200, description: 'Role Found' })
+    @ApiOperation({ description: 'Fetch role by Id', operationId: 'fetchRoleById', title: 'Fetch role by Id' })
+    @ApiResponse({ status: 200, description: 'Role Found', type: Role })
     @ApiBearerAuth()
-    // Authentication decorators
-    @Roles(RoleType.Admin)
-    @UseGuards(AuthGuard('jwt'), RolesGuard)
-    // Http decorators
     @Get(':id')
     @HttpCode(HttpStatus.OK)
-    async find(@Param('id') id: string): Promise<Role> {
+    async fetch(@Param('id') id: string): Promise<Role> {
         return await this.rolesService.fetchById(id, true);
     }
 }

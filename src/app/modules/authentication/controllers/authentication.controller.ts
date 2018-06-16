@@ -1,10 +1,12 @@
 import { Controller, Post, HttpStatus, HttpCode, Body } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiUseTags } from '@nestjs/swagger';
 
-import { UserLoginDto, JWTToken, CreateUserDto } from '../../';
-import { AuthenticationService } from '../services/authentication.service';
-import { UsersService } from '../../users/services/users.service';
+import { UsersService } from '../../users/services';
+import { AuthenticationService } from '../services';
 import { DocumentCreatedDto } from '../../common/dtos';
+import { CreateUserDto } from '../../users/dtos';
+import { UserLoginDto } from '../dtos';
+import { JWTToken } from '../interfaces';
 
 @ApiUseTags('Auth')
 @Controller('auth')
@@ -25,7 +27,8 @@ export class AuthenticationController {
 
     // Swagger decorators
     @ApiOperation({ description: 'Login', operationId: 'login', title: 'Login' })
-    @ApiResponse({ status: 200, description: 'Login Successful' })
+    @ApiResponse({ status: 200, description: 'Login Successful', type: JWTToken })
+    @ApiResponse({ status: 401, description: 'Unauthorized.'})
     // Http decorators
     @Post('login')
     @HttpCode(HttpStatus.OK)

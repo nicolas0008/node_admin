@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
 
-import { CreateProjectDto, UpdateProjectDto, DocumentCreatedDto } from '../../';
-import { ProjectsRepository } from '../repository/projects.repository';
-import { Project } from '../entities/projects.entity';
-import { UsersService } from '../../users/services/users.service';
-import { FeaturesService } from '../../features/services/features.service';
+import { CreateProjectDto, UpdateProjectDto } from '../dtos';
+import { ProjectsRepository } from '../repository';
+import { Project } from '../entities';
+import { UsersService } from '../../users/services';
+import { FeaturesService } from '../../features/services';
+import { DocumentCreatedDto } from '../../common/dtos';
 
 @Injectable()
 export class ProjectsService {
@@ -19,17 +20,16 @@ export class ProjectsService {
     }
 
     async fetchAll(fetchUsers = false, fetchFeatures = false): Promise<Project[]> {
-        const projects = await this.projectsRepository.findAll();
-        if (fetchUsers) {
-            for (let project of projects) {
+        const projects = await this.projectsRepository.fetchAll();
+        for (let project of projects) {
+            if (fetchUsers) {
                 project = await this.getUsers(project);
             }
-        }
-        if (fetchFeatures) {
-            for (let project of projects) {
+            if (fetchFeatures) {
                 project = await this.getFeatures(project);
             }
         }
+
         return projects;
     }
 
@@ -40,28 +40,28 @@ export class ProjectsService {
     }
 
     async fetchByIds(projectIds: string[], fetchUsers = false, fetchFeatures = false): Promise<Project[]> {
-        const projects = await this.projectsRepository.findByIds(projectIds);
-        if (fetchUsers) {
-            for (let project of projects) {
+        const projects = await this.projectsRepository.fetchByIds(projectIds);
+        for (let project of projects) {
+            if (fetchUsers) {
                 project = await this.getUsers(project);
             }
-        }
-        if (fetchFeatures) {
-            for (let project of projects) {
+            if (fetchFeatures) {
                 project = await this.getFeatures(project);
             }
         }
+
         return projects;
     }
 
     async fetchById(id: string, fetchUsers = false, fetchFeatures = false): Promise<Project> {
-        let project = await this.projectsRepository.findById(id);
+        let project = await this.projectsRepository.fetchById(id);
         if (fetchUsers) {
             project = await this.getUsers(project);
         }
         if (fetchFeatures) {
             project = await this.getFeatures(project);
         }
+
         return project;
     }
 

@@ -1,6 +1,6 @@
-import { ESIndex } from '../../common/decorators/es-index.decorator';
-import { User } from '../../users/entities/users.entity';
-import { Feature } from '../../features/entities/features.entity';
+import { ESIndex } from '../../common/decorators';
+import { User } from '../../users/entities';
+import { Feature } from '../../features/entities';
 
 @ESIndex('projects')
 export class Project {

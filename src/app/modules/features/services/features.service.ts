@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
 
-import { CreateFeatureDto, UpdateFeatureDto, DocumentCreatedDto } from '../../';
-import { FeaturesRepository } from '../repository/features.repository';
-import { Feature } from '../entities/features.entity';
+import { CreateFeatureDto, FeatureDto, UpdateFeatureDto } from '../dtos';
+import { FeaturesRepository } from '../repository';
+import { Feature } from '../entities';
+import { DocumentCreatedDto } from '../../common/dtos';
 
 @Injectable()
 export class FeaturesService {
@@ -14,21 +15,21 @@ export class FeaturesService {
         return await this.featuresRepository.index(createFeatureDto);
     }
 
-    async fetchAll(): Promise<Feature[]> {
-        return await this.featuresRepository.findAll();
+    async fetchAll(): Promise<FeatureDto[]> {
+        return await this.featuresRepository.fetchAll();
     }
 
-    async update(id: string, updatedFeatureDto: UpdateFeatureDto): Promise<Feature> {
+    async update(id: string, updatedFeatureDto: UpdateFeatureDto): Promise<FeatureDto> {
         const updatedFeature = new Feature();
         Object.assign(updatedFeature, updatedFeatureDto);
         return await this.featuresRepository.updateById(id, updatedFeature);
     }
 
-    async fetchByIds(featureIds: string[]): Promise<Feature[]> {
-        return await this.featuresRepository.findByIds(featureIds);
+    async fetchByIds(featureIds: string[]): Promise<FeatureDto[]> {
+        return await this.featuresRepository.fetchByIds(featureIds);
     }
 
-    async fetchById(id: string): Promise<Feature> {
-        return await this.featuresRepository.findById(id);
+    async fetchById(id: string): Promise<FeatureDto> {
+        return await this.featuresRepository.fetchById(id);
     }
 }

@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 
-import { ElasticSearchProvider } from '../../core';
-import { BaseRepository } from '../../core/repository/base.repository';
-import { Feature } from '../entities/features.entity';
+import { ElasticSearchProvider } from '../../core/database/elasticsearch';
+import { BaseRepository } from '../../core/repository';
+import { Feature } from '../entities';
 
 @Injectable()
 export class FeaturesRepository extends BaseRepository<Feature> {

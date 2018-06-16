@@ -1,5 +1,5 @@
-import { ESIndex } from '../../common/decorators/es-index.decorator';
-import { Feature } from '../../features/entities/features.entity';
+import { ESIndex } from '../../common/decorators';
+import { Feature } from '../../features/entities';
 
 @ESIndex('roles')
 export class Role {
@@ -7,6 +7,6 @@ export class Role {
 	name: string;
 	description: string;
     projectId: string;
-    features?: string[];
+    features: string[];
     featuresObj?: Feature[];
 }

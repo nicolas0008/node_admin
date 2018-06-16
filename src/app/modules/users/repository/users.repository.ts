@@ -1,10 +1,8 @@
 import { Injectable } from '@nestjs/common';
 
-import { SearchResponse } from 'elasticsearch';
-import { ElasticSearchProvider } from '../../core';
-import { CreateUserDto, UpdateUserDto } from '../';
-import { BaseRepository } from '../../core/repository/base.repository';
-import { User } from '../entities/users.entity';
+import { ElasticSearchProvider } from '../../core/database/elasticsearch';
+import { BaseRepository } from '../../core/repository';
+import { User } from '../entities';
 
 @Injectable()
 export class UsersRepository extends BaseRepository<User> {

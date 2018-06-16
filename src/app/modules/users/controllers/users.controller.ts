@@ -2,13 +2,17 @@ import { Controller, Post, HttpStatus, HttpCode, Body, UseInterceptors, UseGuard
 import { ApiOperation, ApiResponse, ApiUseTags, ApiBearerAuth, ApiImplicitParam } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 
-import { CreateUserDto, UpdateUserDto } from '../';
-import { UsersService } from '../services/users.service';
-import { RolesGuard } from '../../common/guards/roles.guard';
-import { Roles, RoleType } from '../../common/decorators/roles.decorator';
-import { User } from '../entities/users.entity';
+import { CreateUserDto, UpdateUserDto, UserDto } from '../dtos';
+import { UsersService } from '../services';
+import { User } from '../entities';
+import { Roles, RoleType } from '../../common/decorators';
 import { DocumentCreatedDto } from '../../common/dtos';
+import { RolesGuard } from '../../common/guards';
 
+@Roles(RoleType.Admin)
+@UseGuards(AuthGuard('jwt'), RolesGuard)
+@ApiResponse({ status: 401, description: 'Unauthorized.'})
+@ApiResponse({ status: 403, description: 'Forbidden.'})
 @ApiUseTags('Users')
 @Controller('users')
 export class UsersController {
@@ -16,59 +20,39 @@ export class UsersController {
         private readonly usersService: UsersService
     ) {}
 
-    // Swagger decorators
     @ApiOperation({ description: 'Create new user', operationId: 'createUser', title: 'Create new user' })
     @ApiResponse({ status: 201, description: 'User Created', type: DocumentCreatedDto })
     @ApiBearerAuth()
-    // Authentication decorators
-    @Roles(RoleType.Admin)
-    @UseGuards(AuthGuard('jwt'), RolesGuard)
-    // Http decorators
     @Post('create')
     @HttpCode(HttpStatus.CREATED)
     async create(@Body() createUserDto: CreateUserDto): Promise<DocumentCreatedDto> {
         return await this.usersService.create(createUserDto);
     }
 
-    // Swagger decorators
-    @ApiOperation({ description: 'Find all users', operationId: 'findAllUsers', title: 'Find all users' })
-    @ApiResponse({ status: 200, description: 'Users list' })
+    @ApiOperation({ description: 'Fetch all users', operationId: 'fetchAllUsers', title: 'Fetch all users' })
+    @ApiResponse({ status: 200, description: 'Users list', type: UserDto, isArray: true })
     @ApiBearerAuth()
-    // Authentication decorators
-    @Roles(RoleType.Admin)
-    @UseGuards(AuthGuard('jwt'), RolesGuard)
-    // Http decorators
     @Get()
     @HttpCode(HttpStatus.OK)
-    async findAll(): Promise<User[]> {
+    async fetchAll(): Promise<UserDto[]> {
         return await this.usersService.fetchAll(true);
     }
 
-    // Swagger decorators
     @ApiOperation({ description: 'Update user', operationId: 'updateUser', title: 'Update user' })
-    @ApiResponse({ status: 200, description: 'User updated' })
+    @ApiResponse({ status: 200, description: 'User updated', type: UserDto })
     @ApiBearerAuth()
-    // Authentication decorators
-    @Roles(RoleType.Admin)
-    @UseGuards(AuthGuard('jwt'), RolesGuard)
-    // Http decorators
     @Put(':id')
     @HttpCode(HttpStatus.OK)
-    async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto): Promise<User> {
+    async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto): Promise<UserDto> {
         return await this.usersService.update(id, updateUserDto);
     }
 
-    // Swagger decorators
-    @ApiOperation({ description: 'Find user by Id', operationId: 'findUserById', title: 'Find user by Id' })
-    @ApiResponse({ status: 200, description: 'User Found' })
+    @ApiOperation({ description: 'Fetch user by Id', operationId: 'fetchUserById', title: 'Fetch user by Id' })
+    @ApiResponse({ status: 200, description: 'User Found', type: UserDto })
     @ApiBearerAuth()
-    // Authentication decorators
-    @Roles(RoleType.Admin)
-    @UseGuards(AuthGuard('jwt'), RolesGuard)
-    // Http decorators
     @Get(':id')
     @HttpCode(HttpStatus.OK)
-    async find(@Param('id') id: string): Promise<User> {
+    async fetch(@Param('id') id: string): Promise<UserDto> {
         return await this.usersService.fetchById(id, true);
     }
 }

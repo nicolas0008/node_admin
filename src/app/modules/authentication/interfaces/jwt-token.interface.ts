@@ -1,7 +1,13 @@
-import { AuthorizedUser } from '../../users';
+import { ApiModelProperty } from '@nestjs/swagger';
+import { AuthorizedUserDto } from '../../users/dtos';
 
-export interface JWTToken {
+export class JWTToken {
+    @ApiModelProperty()
     readonly expires_in: number;
+
+    @ApiModelProperty()
     readonly access_token: string;
-    readonly user: AuthorizedUser;
+
+    @ApiModelProperty({ type: AuthorizedUserDto, isArray: true })
+    readonly user: AuthorizedUserDto;
 }
