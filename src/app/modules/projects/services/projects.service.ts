@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 
-import { ProjectsRepository } from '../repository/projects.repository';
-import { Project } from '../entities/projects.entity';
-import { UsersService } from '../../users/services/users.service';
-import { FeaturesService } from '../../features/services/features.service';
 import { CreateProjectDto, UpdateProjectDto } from '../dtos';
+import { ProjectsRepository } from '../repository';
+import { Project } from '../entities';
+import { UsersService } from '../../users/services';
+import { FeaturesService } from '../../features/services';
 import { DocumentCreatedDto } from '../../common/dtos';
 
 @Injectable()

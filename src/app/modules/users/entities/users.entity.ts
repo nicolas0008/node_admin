@@ -1,4 +1,4 @@
-import { ESIndex } from '../../common/decorators/es-index.decorator';
+import { ESIndex } from '../../common/decorators';
 import { Role } from '../../roles/entities';
 
 @ESIndex('users')

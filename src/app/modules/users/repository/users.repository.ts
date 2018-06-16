@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
 import { ElasticSearchProvider } from '../../core/database/elasticsearch';
-import { BaseRepository } from '../../core/repository/base.repository';
+import { BaseRepository } from '../../core/repository';
 import { User } from '../entities';
 
 @Injectable()

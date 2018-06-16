@@ -2,12 +2,12 @@ import { Controller, Post, HttpStatus, HttpCode, Body, UseInterceptors, UseGuard
 import { ApiOperation, ApiResponse, ApiUseTags, ApiBearerAuth, ApiImplicitParam } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 
-import { UsersService } from '../services/users.service';
-import { RolesGuard } from '../../common/guards/roles.guard';
-import { Roles, RoleType } from '../../common/decorators/roles.decorator';
-import { User } from '../entities';
-import { DocumentCreatedDto } from '../../common/dtos';
 import { CreateUserDto, UpdateUserDto, UserDto } from '../dtos';
+import { UsersService } from '../services';
+import { User } from '../entities';
+import { Roles, RoleType } from '../../common/decorators';
+import { DocumentCreatedDto } from '../../common/dtos';
+import { RolesGuard } from '../../common/guards';
 
 @Roles(RoleType.Admin)
 @UseGuards(AuthGuard('jwt'), RolesGuard)

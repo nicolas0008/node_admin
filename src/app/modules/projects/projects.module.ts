@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
 
+import { FeaturesModule } from '../features/features.module';
 import { UsersModule } from '../users/users.module';
 import { CoreModule } from '../core/core.module';
-import { ProjectsService } from './services/projects.service';
-import { ProjectsRepository } from './repository/projects.repository';
-import { ProjectsController } from './controllers/projects.controller';
-import { FeaturesModule } from '../features/features.module';
+import { ProjectsService } from './services';
+import { ProjectsRepository } from './repository';
+import { ProjectsController } from './controllers';
 
 @Module({
     imports: [
