@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 
 import { FeaturesService } from '../../features/services/features.service';
 import { RolesRepository } from '../repository/roles.repository';
-import { CreateRoleDto, UpdateRoleDto } from '../';
-import { Role } from '../entities/roles.entity';
+import { Role } from '../entities';
+import { CreateRoleDto, RoleDto, UpdateRoleDto } from '../dtos';
 import { DocumentCreatedDto } from '../../common/dtos';
 
 @Injectable()
@@ -17,8 +17,8 @@ export class RolesService {
         return await this.rolesRepository.index(createRoleDto);
     }
 
-    async fetchAll(fetchFeatures = false): Promise<Role[]> {
-        const roles = await this.rolesRepository.findAll();
+    async fetchAll(fetchFeatures = false): Promise<RoleDto[]> {
+        const roles = await this.rolesRepository.fetchAll();
         if (fetchFeatures) {
             for (let role of roles) {
                 role = await this.getFeatures(role);
@@ -27,16 +27,16 @@ export class RolesService {
         return roles;
     }
 
-    async fetchById(id: string, fetchFeatures = false): Promise<Role> {
-        let role = await this.rolesRepository.findById(id);
+    async fetchById(id: string, fetchFeatures = false): Promise<RoleDto> {
+        let role = await this.rolesRepository.fetchById(id);
         if (fetchFeatures) {
             role = await this.getFeatures(role);
         }
         return role;
     }
 
-    async fetchByIds(roleIds: string[], fetchFeatures = false): Promise<Role[]> {
-        const roles = await this.rolesRepository.findByIds(roleIds);
+    async fetchByIds(roleIds: string[], fetchFeatures = false): Promise<RoleDto[]> {
+        const roles = await this.rolesRepository.fetchByIds(roleIds);
         if (fetchFeatures) {
             for (let role of roles) {
                 role = await this.getFeatures(role);
@@ -45,13 +45,13 @@ export class RolesService {
         return roles;
     }
 
-    async update(id: string, updateRoleDto: UpdateRoleDto): Promise<Role> {
+    async update(id: string, updateRoleDto: UpdateRoleDto): Promise<RoleDto> {
         const updatedRole = new Role();
         Object.assign(updatedRole, updateRoleDto);
         return await this.rolesRepository.updateById(id, updatedRole);
     }
 
-    async getFeatures(role: Role): Promise<Role>{
+    async getFeatures(role: Role): Promise<RoleDto>{
         if (role.features && role.features.length > 0) {
             role.featuresObj = await this.featuresService.fetchByIds(role.features);
         }

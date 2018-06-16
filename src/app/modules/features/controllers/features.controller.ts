@@ -2,13 +2,17 @@ import { Controller, Post, HttpStatus, HttpCode, Body, UseInterceptors, UseGuard
 import { ApiOperation, ApiResponse, ApiUseTags, ApiBearerAuth } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 
-import { CreateFeatureDto, UpdateFeatureDto } from '../';
-import { FeaturesService } from '../services/features.service';
-import { RolesGuard } from '../../common/guards/roles.guard';
-import { Roles, RoleType } from '../../common/decorators/roles.decorator';
-import { Feature } from '../entities/features.entity';
+import { CreateFeatureDto, UpdateFeatureDto, FeatureDto } from '../dtos';
+import { FeaturesService } from '../services';
+import { Feature } from '../entities';
+import { RolesGuard } from '../../common/guards';
+import { Roles, RoleType } from '../../common/decorators';
 import { DocumentCreatedDto } from '../../common/dtos';
 
+@Roles(RoleType.Admin)
+@UseGuards(AuthGuard('jwt'), RolesGuard)
+@ApiResponse({ status: 401, description: 'Unauthorized.'})
+@ApiResponse({ status: 403, description: 'Forbidden.'})
 @ApiUseTags('Features')
 @Controller('features')
 export class FeaturesController {
@@ -16,59 +20,40 @@ export class FeaturesController {
         private readonly featuresService: FeaturesService
     ) {}
 
-    // Swagger decorators
     @ApiOperation({ description: 'Create new feature', operationId: 'createFeature', title: 'Create new feature' })
     @ApiResponse({ status: 201, description: 'Feature Created', type: DocumentCreatedDto })
     @ApiBearerAuth()
-    // Authentication decorators
-    @Roles(RoleType.Admin)
-    @UseGuards(AuthGuard('jwt'), RolesGuard)
-    // Http decorators
     @Post('create')
     @HttpCode(HttpStatus.CREATED)
     async create(@Body() createFeatureDto: CreateFeatureDto): Promise<DocumentCreatedDto> {
         return await this.featuresService.create(createFeatureDto);
     }
 
-    // Swagger decorators
-    @ApiOperation({ description: 'Find all features', operationId: 'findAllFeatures', title: 'Find all features' })
-    @ApiResponse({ status: 200, description: 'Features list' })
+    @ApiOperation({ description: 'Fetch all features', operationId: 'fetchAllFeatures', title: 'Fetch all features' })
+    @ApiResponse({ status: 200, description: 'Features list', type: FeatureDto, isArray: true })
     @ApiBearerAuth()
-    // Authentication decorators
-    @Roles(RoleType.Admin)
-    @UseGuards(AuthGuard('jwt'), RolesGuard)
-    // Http decorators
     @Get()
     @HttpCode(HttpStatus.OK)
-    async findAll(): Promise<Feature[]> {
+    async fetchAll(): Promise<FeatureDto[]> {
         return await this.featuresService.fetchAll();
     }
 
-    // Swagger decorators
     @ApiOperation({ description: 'Update feature', operationId: 'updateFeature', title: 'Update feature' })
-    @ApiResponse({ status: 200, description: 'Feature updated' })
+    @ApiResponse({ status: 200, description: 'Feature updated', type: FeatureDto })
     @ApiBearerAuth()
-    // Authentication decorators
-    @Roles(RoleType.Admin)
-    @UseGuards(AuthGuard('jwt'), RolesGuard)
     // Http decorators
     @Put(':id')
     @HttpCode(HttpStatus.OK)
-    async update(@Param('id') id: string, @Body() updateFeatureDto: UpdateFeatureDto): Promise<Feature> {
+    async update(@Param('id') id: string, @Body() updateFeatureDto: UpdateFeatureDto): Promise<FeatureDto> {
         return await this.featuresService.update(id, updateFeatureDto);
     }
 
-    // Swagger decorators
-    @ApiOperation({ description: 'Find feature by Id', operationId: 'findFeatureById', title: 'Find feature by Id' })
-    @ApiResponse({ status: 200, description: 'Feature Found' })
+    @ApiOperation({ description: 'Fetch feature by Id', operationId: 'fetchFeatureById', title: 'Fetch feature by Id' })
+    @ApiResponse({ status: 200, description: 'Feature Found', type: FeatureDto })
     @ApiBearerAuth()
-    // Authentication decorators
-    @Roles(RoleType.Admin)
-    @UseGuards(AuthGuard('jwt'), RolesGuard)
-    // Http decorators
     @Get(':id')
     @HttpCode(HttpStatus.OK)
-    async find(@Param('id') id: string): Promise<Feature> {
+    async fetch(@Param('id') id: string): Promise<FeatureDto> {
         return await this.featuresService.fetchById(id);
     }
 }

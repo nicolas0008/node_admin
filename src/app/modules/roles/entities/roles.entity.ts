@@ -7,6 +7,6 @@ export class Role {
 	name: string;
 	description: string;
     projectId: string;
-    features?: string[];
+    features: string[];
     featuresObj?: Feature[];
 }

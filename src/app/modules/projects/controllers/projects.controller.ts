@@ -6,9 +6,13 @@ import { ProjectsService } from '../services/projects.service';
 import { RolesGuard } from '../../common/guards/roles.guard';
 import { Roles, RoleType } from '../../common/decorators/roles.decorator';
 import { Project } from '../entities/projects.entity';
-import { CreateProjectDto, UpdateProjectDto } from '../dtos';
-import { DocumentCreatedDto } from '../../common/dtos';
+import { CreateProjectDto, UpdateProjectDto, ProjectDto } from '../dtos';
+import { DocumentCreatedDto } from '../../common/dtos/document-created.dto';
 
+@Roles(RoleType.Admin)
+@UseGuards(AuthGuard('jwt'), RolesGuard)
+@ApiResponse({ status: 401, description: 'Unauthorized.'})
+@ApiResponse({ status: 403, description: 'Forbidden.'})
 @ApiUseTags('Projects')
 @Controller('projects')
 export class ProjectsController {
@@ -16,59 +20,39 @@ export class ProjectsController {
         private readonly projectsService: ProjectsService
     ) {}
 
-    // Swagger decorators
     @ApiOperation({ description: 'Create new project', operationId: 'createProject', title: 'Create new project' })
     @ApiResponse({ status: 201, description: 'Project Created', type: DocumentCreatedDto })
     @ApiBearerAuth()
-    // Authentication decorators
-    @Roles(RoleType.Admin)
-    @UseGuards(AuthGuard('jwt'), RolesGuard)
-    // Http decorators
     @Post('create')
     @HttpCode(HttpStatus.CREATED)
     async create(@Body() createProjectDto: CreateProjectDto): Promise<DocumentCreatedDto> {
         return await this.projectsService.create(createProjectDto);
     }
 
-    // Swagger decorators
-    @ApiOperation({ description: 'Find all projects', operationId: 'findAllProjects', title: 'Find all projects' })
-    @ApiResponse({ status: 200, description: 'Projects list' })
+    @ApiOperation({ description: 'Fetch all projects', operationId: 'fetchAllProjects', title: 'Fetch all projects' })
+    @ApiResponse({ status: 200, description: 'Projects list', type: ProjectDto, isArray: true })
     @ApiBearerAuth()
-    // Authentication decorators
-    @Roles(RoleType.Admin)
-    @UseGuards(AuthGuard('jwt'), RolesGuard)
-    // Http decorators
     @Get()
     @HttpCode(HttpStatus.OK)
-    async findAll(): Promise<Project[]> {
-        return await this.projectsService.fetchAll();
+    async fetchAll(): Promise<ProjectDto[]> {
+        return await this.projectsService.fetchAll(true, true);
     }
 
-    // Swagger decorators
     @ApiOperation({ description: 'Update project', operationId: 'updateProject', title: 'Update project' })
-    @ApiResponse({ status: 200, description: 'Project updated' })
+    @ApiResponse({ status: 200, description: 'Project updated', type: ProjectDto })
     @ApiBearerAuth()
-    // Authentication decorators
-    @Roles(RoleType.Admin)
-    @UseGuards(AuthGuard('jwt'), RolesGuard)
-    // Http decorators
     @Put(':id')
     @HttpCode(HttpStatus.OK)
-    async update(@Param('id') id: string, @Body() updateProjectDto: UpdateProjectDto): Promise<Project> {
+    async update(@Param('id') id: string, @Body() updateProjectDto: UpdateProjectDto): Promise<ProjectDto> {
         return await this.projectsService.update(id, updateProjectDto);
     }
 
-    // Swagger decorators
-    @ApiOperation({ description: 'Find project by Id', operationId: 'findProjectById', title: 'Find project by Id' })
-    @ApiResponse({ status: 200, description: 'Project Found' })
+    @ApiOperation({ description: 'Fetch project by Id', operationId: 'fetchProjectById', title: 'Fetch project by Id' })
+    @ApiResponse({ status: 200, description: 'Project Found', type: ProjectDto })
     @ApiBearerAuth()
-    // Authentication decorators
-    @Roles(RoleType.Admin)
-    @UseGuards(AuthGuard('jwt'), RolesGuard)
-    // Http decorators
     @Get(':id')
     @HttpCode(HttpStatus.OK)
-    async find(@Param('id') id: string): Promise<Project> {
+    async fetch(@Param('id') id: string): Promise<ProjectDto> {
         return await this.projectsService.fetchById(id, true, true);
     }
 }

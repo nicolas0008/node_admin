@@ -1,8 +1,7 @@
 import { Injectable } from '@nestjs/common';
 
 import { ElasticSearchProvider } from '../../core/database/elasticsearch';
-import { SearchResponse, MGetResponse } from 'elasticsearch';
-import { DocumentCreatedDto } from '../..';
+import { DocumentCreatedDto } from '../../common/dtos';
 
 export class BaseRepository<T> {
     constructor(
@@ -18,19 +17,19 @@ export class BaseRepository<T> {
         return this.esProvider.updateById(updatedEntity, id, this.type);
     }
 
-    async findByIds(ids: string[]): Promise<T[]> {
-        return this.esProvider.findByIds(ids, this.type);
+    async fetchByIds(ids: string[]): Promise<T[]> {
+        return this.esProvider.fetchByIds(ids, this.type);
     }
 
-    async findById(id: string): Promise<T> {
-        return this.esProvider.findById(id, this.type);
+    async fetchById(id: string): Promise<T> {
+        return this.esProvider.fetchById(id, this.type);
     }
 
-    async findOne(content: any): Promise<T> {
-        return this.esProvider.findOne(content, this.type);
+    async fetchOne(content: any): Promise<T> {
+        return this.esProvider.fetchOne(content, this.type);
     }
 
-    async findAll(): Promise<T[]> {
-        return this.esProvider.findAll(this.type);
+    async fetchAll(): Promise<T[]> {
+        return this.esProvider.fetchAll(this.type);
     }
 }

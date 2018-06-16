@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 
-import { RolesService } from '../../roles/services/roles.service';
-import { CreateUserDto, UpdateUserDto } from '../';
-import { UsersRepository } from '../repository/users.repository';
-import { User } from '../entities/users.entity';
+import { RolesService } from '../../roles/services';
+import { UsersRepository } from '../repository';
+import { User } from '../entities';
+import { CreateUserDto, UpdateUserDto } from '../dtos';
 import { DocumentCreatedDto } from '../../common/dtos';
 
 @Injectable()
@@ -18,7 +18,7 @@ export class UsersService {
     }
 
     async fetchByEmail(email: string, fetchRoles = false): Promise<User> {
-        let user = await this.usersRepository.findOne({ email });
+        let user = await this.usersRepository.fetchOne({ email });
         if (fetchRoles) {
             user = await this.getRoles(user);
         }
@@ -26,7 +26,7 @@ export class UsersService {
     }
 
     async fetchById(u_id: string, fetchRoles = false): Promise<User> {
-        let user = await this.usersRepository.findById(u_id);
+        let user = await this.usersRepository.fetchById(u_id);
         if (fetchRoles) {
             user = await this.getRoles(user);
         }
@@ -34,7 +34,7 @@ export class UsersService {
     }
 
     async fetchByIds(featureIds: string[], fetchRoles = false): Promise<User[]> {
-        const users = await this.usersRepository.findByIds(featureIds);
+        const users = await this.usersRepository.fetchByIds(featureIds);
         if (fetchRoles) {
             for (let user of users) {
                 user = await this.getRoles(user);
@@ -44,7 +44,7 @@ export class UsersService {
     }
 
     async fetchAll(fetchRoles = false): Promise<User[]> {
-        const users = await this.usersRepository.findAll();
+        const users = await this.usersRepository.fetchAll();
         if (fetchRoles) {
             for (let user of users) {
                 user = await this.getRoles(user);

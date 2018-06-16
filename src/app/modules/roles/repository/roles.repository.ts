@@ -1,9 +1,8 @@
 import { Injectable } from '@nestjs/common';
 
-import { ElasticSearchProvider } from '../../core';
+import { ElasticSearchProvider } from '../../core/database/elasticsearch';
 import { BaseRepository } from '../../core/repository/base.repository';
-import { CreateRoleDto } from '../';
-import { Role } from '../entities/roles.entity';
+import { Role } from '../entities';
 
 @Injectable()
 export class RolesRepository extends BaseRepository<Role> {
