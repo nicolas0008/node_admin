@@ -6,6 +6,11 @@ import { RolesService } from '../../roles/services';
 import { CreateUserDto, UpdateUserDto } from '../dtos';
 import { DocumentCreatedDto } from '../../common/dtos';
 
+/**
+ * Users Service
+ *
+ * @class UsersService
+ */
 @Injectable()
 export class UsersService {
     constructor(
@@ -13,11 +18,26 @@ export class UsersService {
         private readonly rolesService: RolesService
     ) { }
 
+    /**
+     * Creates an user
+     *
+     * @param {CreateUserDto} createUserDto
+     * @returns {Promise<DocumentCreatedDto>}
+     * @memberof UsersService
+     */
     async create(createUserDto: CreateUserDto): Promise<DocumentCreatedDto> {
         return await this.usersRepository.index(createUserDto);
     }
 
-    async fetchByEmail(email: string, fetchRoles = false): Promise<User> {
+    /**
+     * Gets an user by email
+     *
+     * @param {string} email
+     * @param {boolean} [fetchRoles=false]
+     * @returns {Promise<User>}
+     * @memberof UsersService
+     */
+    async fetchByEmail(email: string, fetchRoles: boolean = false): Promise<User> {
         let user = await this.usersRepository.fetchOne({ email });
         if (fetchRoles) {
             user = await this.getRoles(user);
@@ -25,15 +45,31 @@ export class UsersService {
         return user;
     }
 
-    async fetchById(u_id: string, fetchRoles = false): Promise<User> {
-        let user = await this.usersRepository.fetchById(u_id);
+    /**
+     * Gets an user by ID
+     *
+     * @param {string} id
+     * @param {boolean} [fetchRoles=false]
+     * @returns {Promise<User>}
+     * @memberof UsersService
+     */
+    async fetchById(id: string, fetchRoles: boolean = false): Promise<User> {
+        let user = await this.usersRepository.fetchById(id);
         if (fetchRoles) {
             user = await this.getRoles(user);
         }
         return user;
     }
 
-    async fetchByIds(featureIds: string[], fetchRoles = false): Promise<User[]> {
+    /**
+     * Gets a set of users by ID's
+     *
+     * @param {string[]} featureIds
+     * @param {boolean} [fetchRoles=false]
+     * @returns {Promise<User[]>}
+     * @memberof UsersService
+     */
+    async fetchByIds(featureIds: string[], fetchRoles: boolean = false): Promise<User[]> {
         const users = await this.usersRepository.fetchByIds(featureIds);
         if (fetchRoles) {
             for (let user of users) {
@@ -43,7 +79,14 @@ export class UsersService {
         return users;
     }
 
-    async fetchAll(fetchRoles = false): Promise<User[]> {
+    /**
+     * Gets all users
+     *
+     * @param {boolean} [fetchRoles=false]
+     * @returns {Promise<User[]>}
+     * @memberof UsersService
+     */
+    async fetchAll(fetchRoles: boolean = false): Promise<User[]> {
         const users = await this.usersRepository.fetchAll();
         if (fetchRoles) {
             for (let user of users) {
@@ -53,12 +96,27 @@ export class UsersService {
         return users;
     }
 
+    /**
+     * Updates an user by ID
+     *
+     * @param {string} id
+     * @param {UpdateUserDto} updateUserDto
+     * @returns {Promise<User>}
+     * @memberof UsersService
+     */
     async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
         const updatedUser = new User();
         Object.assign(updatedUser, updateUserDto);
         return await this.usersRepository.updateById(id, updatedUser);
     }
 
+    /**
+     * Gets all roles from an user
+     *
+     * @param {User} user
+     * @returns {Promise<User>}
+     * @memberof UsersService
+     */
     async getRoles(user: User): Promise<User> {
         if (user.roles && user.roles.length > 0) {
             user.rolesObj = await this.rolesService.fetchByIds(user.roles, true);

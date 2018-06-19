@@ -1,6 +1,12 @@
 import { ApiModelProperty, ApiModelPropertyOptional } from '@nestjs/swagger';
 import { RoleDto } from '../../roles/dtos';
 
+/**
+ * DTO to return an user
+ *
+ * @export
+ * @class UserDto
+ */
 export class UserDto {
     @ApiModelProperty()
     readonly email: string;

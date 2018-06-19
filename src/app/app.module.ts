@@ -8,6 +8,12 @@ import { AuthenticationModule } from './modules/authentication/authentication.mo
 import { ProjectsModule } from './modules/projects/projects.module';
 import { JwtStrategy } from './modules/authentication/passport/jwt.strategy';
 
+/**
+ * App Module
+ *
+ * @export
+ * @class AppModule
+ */
 @Module({
     imports: [
         CoreModule,

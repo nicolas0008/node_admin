@@ -6,6 +6,12 @@ import { RolesService } from './services';
 import { RolesRepository } from './repository';
 import { RolesController } from './controllers';
 
+/**
+ * Roles Module
+ *
+ * @export RolesService
+ * @class RolesModule
+ */
 @Module({
     imports: [
         CoreModule,

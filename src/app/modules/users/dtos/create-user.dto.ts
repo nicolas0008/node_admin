@@ -1,6 +1,11 @@
 import { ApiModelProperty, ApiModelPropertyOptional } from '@nestjs/swagger';
 import { IsString, IsArray } from 'class-validator';
 
+/**
+ * DTO to create an user
+ *
+ * @class CreateUserDto
+ */
 export class CreateUserDto {
     @ApiModelProperty()
     @IsString()

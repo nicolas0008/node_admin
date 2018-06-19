@@ -1,6 +1,12 @@
 import { ApiModelProperty, ApiModelPropertyOptional } from '@nestjs/swagger';
 import { FeatureDto } from '../../features/dtos';
 
+/**
+ * DTO to return a role
+ *
+ * @export
+ * @class RoleDto
+ */
 export class RoleDto {
     @ApiModelProperty()
     readonly id: string;
