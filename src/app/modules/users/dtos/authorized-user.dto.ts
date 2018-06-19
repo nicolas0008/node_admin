@@ -2,6 +2,11 @@ import { ApiModelProperty } from '@nestjs/swagger';
 import { RoleDto } from '../../roles/dtos';
 import { User } from '../entities';
 
+/**
+ * DTO of the authorized user
+ *
+ * @class AuthorizedUserDto
+ */
 export class AuthorizedUserDto {
     constructor(user: User) {
         this.id = user.id;

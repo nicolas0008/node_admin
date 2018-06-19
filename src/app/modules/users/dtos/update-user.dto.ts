@@ -1,6 +1,12 @@
 import { ApiModelPropertyOptional } from '@nestjs/swagger';
 import { IsString, IsArray } from 'class-validator';
 
+/**
+ * DTO to update an user
+ *
+ * @export
+ * @class UpdateUserDto
+ */
 export class UpdateUserDto {
     @ApiModelPropertyOptional()
     @IsString()

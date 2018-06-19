@@ -1,9 +1,12 @@
 import { ApiModelProperty, ApiModelPropertyOptional } from '@nestjs/swagger';
-import { Project } from '../entities';
-import { User } from '../../users/entities';
 import { UserDto } from '../../users/dtos';
 import { FeatureDto } from '../../features/dtos';
 
+/**
+ * DTO to return a project
+ *
+ * @class ProjectDto
+ */
 export class ProjectDto {
     @ApiModelProperty()
     readonly name: string;

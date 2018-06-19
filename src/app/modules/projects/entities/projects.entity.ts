@@ -2,6 +2,11 @@ import { ESIndex } from '../../common/decorators';
 import { User } from '../../users/entities';
 import { Feature } from '../../features/entities';
 
+/**
+ * Project entity
+ *
+ * @class Project
+ */
 @ESIndex('projects')
 export class Project {
     name: string;

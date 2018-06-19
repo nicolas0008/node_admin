@@ -6,6 +6,12 @@ import { UsersService } from './services';
 import { UsersRepository } from './repository';
 import { UsersController } from './controllers';
 
+/**
+ * Users Module
+ *
+ * @export UsersService
+ * @class UsersModule
+ */
 @Module({
     imports: [
         CoreModule,

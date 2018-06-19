@@ -7,6 +7,12 @@ import { ProjectsService } from './services';
 import { ProjectsRepository } from './repository';
 import { ProjectsController } from './controllers';
 
+/**
+ * Projects module
+ *
+ * @export ProjectsService
+ * @class ProjectsModule
+ */
 @Module({
     imports: [
         CoreModule,

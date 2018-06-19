@@ -5,6 +5,11 @@ import { CoreModule } from '../core/core.module';
 import { AuthenticationService } from './services';
 import { AuthenticationController } from './controllers';
 
+/**
+ * Authentication module
+ *
+ * @class AuthenticationModule
+ */
 @Module({
     imports: [
         CoreModule,
