@@ -32,13 +32,13 @@
         "elasticsearch": "^15.0.0",
         "get-json": "^1.0.0",
         "jsonwebtoken": "^8.2.2",
-        "mongodb": "^3.1.0-beta4",
         "passport": "^0.4.0",
         "passport-http-bearer": "^1.0.1",
         "passport-jwt": "^4.0.0",
         "reflect-metadata": "^0.1.12",
         "rxjs": "^6.0.0",
-        "typescript": "^2.8.0"
+        "typescript": "^2.8.0",
+        "winston": "^3.0.0"
     },
     "devDependencies": {
         "@types/elasticsearch": "^5.0.23",

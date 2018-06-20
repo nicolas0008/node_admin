@@ -2,10 +2,14 @@ import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 import { AppModule } from './app/app.module';
+import { WinstonLoggerService } from './app/modules/common/logger/logger.service';
 
 async function bootstrap() {
-    const app = await NestFactory.create(AppModule);
+    const app = await NestFactory.create(AppModule, {
+        logger: new WinstonLoggerService('Main')
+    });
 
+    const tryLog = new WinstonLoggerService('Main');
     const options = new DocumentBuilder()
         .setBasePath('./')
         .setTitle('Termmed API')
