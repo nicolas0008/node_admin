@@ -5,9 +5,9 @@ import { AuthGuard } from '@nestjs/passport';
 import { CreateProjectDto, UpdateProjectDto, ProjectDto } from '../dtos';
 import { ProjectsService } from '../services';
 import { Project } from '../entities';
-import { DocumentCreatedDto } from '../../common/dtos';
-import { RolesGuard } from '../../common/guards';
-import { Roles, RoleType } from '../../common/decorators';
+import { DocumentCreatedDto } from '../../../shared/dtos';
+import { RolesGuard } from '../../../shared/guards';
+import { Roles, RoleType } from '../../../shared/decorators';
 
 /**
  * Projects Controller

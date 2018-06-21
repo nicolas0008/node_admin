@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import * as jwt from 'jsonwebtoken';
 
 import { UsersService } from '../../users/services';
-import { UnauthorizedException } from '../../common/exceptions';
+import { UnauthorizedException } from '../../../shared/exceptions';
 import { User } from '../../users/entities';
 import { UserLoginDto } from '../dtos';
 import { AuthorizedUserDto } from '../../users/dtos';

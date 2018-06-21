@@ -5,7 +5,7 @@ import { ProjectsRepository } from '../repository';
 import { Project } from '../entities';
 import { UsersService } from '../../users/services';
 import { FeaturesService } from '../../features/services';
-import { DocumentCreatedDto } from '../../common/dtos';
+import { DocumentCreatedDto } from '../../../shared/dtos';
 
 /**
  * Projects Service

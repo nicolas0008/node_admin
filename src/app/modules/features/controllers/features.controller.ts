@@ -4,9 +4,9 @@ import { AuthGuard } from '@nestjs/passport';
 
 import { CreateFeatureDto, UpdateFeatureDto, FeatureDto } from '../dtos';
 import { FeaturesService } from '../services';
-import { RolesGuard } from '../../common/guards';
-import { Roles, RoleType } from '../../common/decorators';
-import { DocumentCreatedDto } from '../../common/dtos';
+import { RolesGuard } from '../../../shared/guards';
+import { Roles, RoleType } from '../../../shared/decorators';
+import { DocumentCreatedDto } from '../../../shared/dtos';
 
 @Roles(RoleType.Admin)
 @UseGuards(AuthGuard('jwt'), RolesGuard)

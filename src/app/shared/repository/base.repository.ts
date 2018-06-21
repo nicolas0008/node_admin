@@ -1,5 +1,5 @@
-import { ElasticSearchProvider } from '../../core/database/elasticsearch';
-import { DocumentCreatedDto } from '../../common/dtos';
+import { ElasticSearchProvider } from '../../shared/database/elasticsearch';
+import { DocumentCreatedDto } from '../../shared/dtos';
 
 /**
  *  Repository base with common functions

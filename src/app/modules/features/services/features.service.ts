@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateFeatureDto, FeatureDto, UpdateFeatureDto } from '../dtos';
 import { FeaturesRepository } from '../repository';
 import { Feature } from '../entities';
-import { DocumentCreatedDto } from '../../common/dtos';
+import { DocumentCreatedDto } from '../../../shared/dtos';
 
 /**
  * Features service

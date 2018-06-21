@@ -1,4 +1,4 @@
-import { ESIndex } from '../../common/decorators';
+import { ESIndex } from '../../../shared/decorators';
 import { User } from '../../users/entities';
 import { Feature } from '../../features/entities';
 

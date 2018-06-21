@@ -5,7 +5,7 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import { UsersService } from '../../users/services';
 import { JWTPayload } from '../interfaces';
 import { AuthorizedUserDto } from '../../users/dtos';
-import { UnauthorizedException } from '../../common/exceptions';
+import { UnauthorizedException } from '../../../shared/exceptions';
 
 /**
  * Strategy to handle users logged in

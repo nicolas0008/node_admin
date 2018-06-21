@@ -1,7 +1,6 @@
 import { LoggerService } from '@nestjs/common';
 import * as winston from 'winston';
 import { Logger } from 'winston';
-import { Format } from 'logform';
 
 /**
  * Logger Service

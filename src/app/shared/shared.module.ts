@@ -5,7 +5,7 @@ import { ElasticSearchProvider } from './database/elasticsearch';
  * Core module
  *
  * @exports ElasticSearchProvider
- * @class CoreModule
+ * @class SharedModule
  */
 @Module({
     providers: [
@@ -15,4 +15,4 @@ import { ElasticSearchProvider } from './database/elasticsearch';
         ElasticSearchProvider
     ]
 })
-export class CoreModule {}
+export class SharedModule {}

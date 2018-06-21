@@ -3,7 +3,7 @@ import { ApiOperation, ApiResponse, ApiUseTags } from '@nestjs/swagger';
 
 import { UsersService } from '../../users/services';
 import { AuthenticationService } from '../services';
-import { DocumentCreatedDto } from '../../common/dtos';
+import { DocumentCreatedDto } from '../../../shared/dtos';
 import { CreateUserDto } from '../../users/dtos';
 import { UserLoginDto } from '../dtos';
 import { JWTToken } from '../interfaces';
