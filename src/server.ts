@@ -9,7 +9,6 @@ async function bootstrap() {
         logger: new WinstonLoggerService('Main')
     });
 
-    const tryLog = new WinstonLoggerService('Main');
     const options = new DocumentBuilder()
         .setBasePath('./')
         .setTitle('Termmed API')
