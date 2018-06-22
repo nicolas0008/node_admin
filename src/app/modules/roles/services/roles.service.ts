@@ -4,7 +4,7 @@ import { RolesRepository } from '../repository';
 import { FeaturesService } from '../../features/services';
 import { Role } from '../entities';
 import { CreateRoleDto, RoleDto, UpdateRoleDto } from '../dtos';
-import { DocumentCreatedDto } from '../../common/dtos';
+import { DocumentCreatedDto } from '../../../shared/dtos';
 
 @Injectable()
 export class RolesService {

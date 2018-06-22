@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 
 import { FeaturesModule } from '../features/features.module';
 import { UsersModule } from '../users/users.module';
-import { CoreModule } from '../core/core.module';
+import { SharedModule } from '../../shared/shared.module';
 import { ProjectsService } from './services';
 import { ProjectsRepository } from './repository';
 import { ProjectsController } from './controllers';
@@ -15,7 +15,7 @@ import { ProjectsController } from './controllers';
  */
 @Module({
     imports: [
-        CoreModule,
+        SharedModule,
         UsersModule,
         FeaturesModule
     ],

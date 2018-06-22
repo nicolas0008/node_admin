@@ -1,4 +1,4 @@
-import { ESIndex } from '../../common/decorators';
+import { ESIndex } from '../../../shared/decorators';
 import { Role } from '../../roles/entities';
 
 /**

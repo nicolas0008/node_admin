@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 
 import { UsersModule } from '../users/users.module';
-import { CoreModule } from '../core/core.module';
+import { SharedModule } from '../../shared/shared.module';
 import { AuthenticationService } from './services';
 import { AuthenticationController } from './controllers';
 
@@ -12,7 +12,7 @@ import { AuthenticationController } from './controllers';
  */
 @Module({
     imports: [
-        CoreModule,
+        SharedModule,
         UsersModule
     ],
     providers: [

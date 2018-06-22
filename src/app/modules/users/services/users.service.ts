@@ -4,7 +4,7 @@ import { UsersRepository } from '../repository';
 import { User } from '../entities';
 import { RolesService } from '../../roles/services';
 import { CreateUserDto, UpdateUserDto } from '../dtos';
-import { DocumentCreatedDto } from '../../common/dtos';
+import { DocumentCreatedDto } from '../../../shared/dtos';
 
 /**
  * Users Service

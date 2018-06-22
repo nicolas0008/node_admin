@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 
-import { CoreModule } from '../core/core.module';
+import { SharedModule } from '../../shared/shared.module';
 import { FeaturesModule } from '../features/features.module';
 import { RolesService } from './services';
 import { RolesRepository } from './repository';
@@ -14,7 +14,7 @@ import { RolesController } from './controllers';
  */
 @Module({
     imports: [
-        CoreModule,
+        SharedModule,
         FeaturesModule
     ],
     providers: [

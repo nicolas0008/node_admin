@@ -1,4 +1,4 @@
-import { ESIndex } from '../../common/decorators';
+import { ESIndex } from '../../../shared/decorators';
 
 @ESIndex('features')
 export class Feature {

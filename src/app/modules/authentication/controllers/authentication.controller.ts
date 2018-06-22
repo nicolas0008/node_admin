@@ -2,12 +2,11 @@ import { Controller, Post, HttpStatus, HttpCode, Body } from '@nestjs/common';
 import { ApiOperation, ApiResponse, ApiUseTags } from '@nestjs/swagger';
 
 import { UsersService } from '../../users/services';
+import { DocumentCreatedDto } from '../../../shared/dtos';
 import { AuthenticationService } from '../services';
-import { DocumentCreatedDto } from '../../common/dtos';
 import { CreateUserDto } from '../../users/dtos';
 import { UserLoginDto } from '../dtos';
 import { JWTToken } from '../interfaces';
-
 /**
  * Authentication controller
  *
