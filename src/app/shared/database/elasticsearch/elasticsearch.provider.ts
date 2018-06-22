@@ -4,9 +4,9 @@ import { Reflector } from '@nestjs/core';
 import { SearchResponse, Client, GetResponse, MGetResponse } from 'elasticsearch';
 import * as bodybuilder from 'bodybuilder';
 
-import { ElasticSearchException } from '@shared/exceptions';
-import { DecoratorTypes } from '../../decorators';
-import { DocumentCreatedDto } from '../../dtos';
+import { ElasticSearchException } from '../../../shared/exceptions';
+import { DecoratorTypes } from '../../../shared/decorators';
+import { DocumentCreatedDto } from '../../../shared/dtos';
 
 /**
  * Common elastic search provider helper

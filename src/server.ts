@@ -5,8 +5,9 @@ import { AppModule } from './app.module';
 import { WinstonLoggerService } from './app/shared/logger/logger.service';
 
 async function bootstrap() {
+    const winstonLogger = new WinstonLoggerService('Main');
     const app = await NestFactory.create(AppModule, {
-        logger: new WinstonLoggerService('Main')
+        logger: winstonLogger
     });
 
     const options = new DocumentBuilder()
